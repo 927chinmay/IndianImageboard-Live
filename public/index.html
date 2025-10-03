@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Imageboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+ <header class="main-header">
+    <div class="header-top-bar">
+        <div class="auth-links">
+            <a href="auth.html">Login / Register</a> | <a href="admin.html">Admin Panel</a>
+        </div>
+    </div>
+    <div class="header-center">
+        <div class="logo-container">
+            <img src="/logo.png" alt="Indian Imageboard Logo" class="logo">
+        </div>
+        <h1><a href="/">Indian Imageboard</a></h1>
+        <p>Clean and good discussion platform</p>
+        <form id="search-form" action="/search.html" method="GET">
+            <input type="text" id="search-query" name="q" placeholder="Search for posts...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</header>
+
+    <main>
+           <section class="site-description">
+        <div class="description-box">
+            <h2>What is Indian Imageboard?</h2>
+            <p>Indian Imageboard is a clean and good discussion platform where users can post and share ideas without fear of vulgarity. We believe in good discussion and a welcoming environment. Feel free to explore the boards below!</p>
+        </div>
+    </section>
+
+    <section class="boards-container">
+        <h2>Discussion Boards</h2>
+        <div id="boards-list" class="boards-grid">
+            </div>
+
+        </section>
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

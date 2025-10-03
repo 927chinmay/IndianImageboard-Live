@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="board-page-title">Board - Indian Imageboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="board-header">
+            <h1><a href="/">Indian Imageboard</a></h1>
+    <h2 id="board-name"></h2>
+    <p id="board-description"></p>
+</div>
+    </header>
+
+    <main>
+        <div class="view-toggle">
+    <a href="#" id="list-view-btn">List View</a> | <a href="#" id="catalog-view-btn">Catalog View</a>
+</div>
+
+        <section class="post-form-container">
+            <h3>Create a New Post</h3>
+            <form id="post-form" action="" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="post-title">Title:</label>
+                    <input type="text" id="post-title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="post-content">Content:</label>
+                    <textarea id="post-content" name="content" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="post-image">Image (Optional):</label>
+                    <input type="file" id="post-media" name="media" accept="image/*,video/*">
+                </div>
+                <button type="submit">Submit Post</button>
+            </form>
+        </section>
+
+        <hr>
+
+        <section class="posts-container">
+            <h3>Recent Posts</h3>
+            <div id="posts-list">
+                </div>
+        </section>
+
+
+
+    </main>
+
+    <script src="/js/board.js"></script>
+</body>
+</html>

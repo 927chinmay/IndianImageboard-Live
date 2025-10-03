@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register - Indian Imageboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="main-header">
+        <h1>Indian Imageboard</h1>
+        <p>Clean and good discussion platform</p>
+    </header>
+
+    <main>
+        <section class="auth-container">
+            <h2>User Authentication</h2>
+            
+            <div class="auth-toggle">
+                <a href="#" id="login-link">Login</a> | <a href="#" id="register-link">Register</a>
+            </div>
+
+            <form id="register-form" class="auth-form" style="display:none;">
+                <h3>Register</h3>
+                <div class="form-group">
+                    <label for="reg-username">Username:</label>
+                    <input type="text" id="reg-username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Password:</label>
+                    <input type="password" id="reg-password" name="password" required>
+                </div>
+                <button type="submit">Register</button>
+            </form>
+
+            <form id="login-form" class="auth-form">
+                <h3>Login</h3>
+                <div class="form-group">
+                    <label for="login-username">Username:</label>
+                    <input type="text" id="login-username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password:</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </section>
+        <div id="auth-message"></div>
+    </main>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

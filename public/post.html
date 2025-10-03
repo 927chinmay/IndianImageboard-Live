@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="post-page-title">Post - Indian Imageboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="main-header">
+        <h1><a href="/">Indian Imageboard</a></h1>
+        <p>Clean and good discussion platform</p>
+    </header>
+
+    <main>
+        <section id="post-details">
+            </section>
+
+        <hr>
+
+        <section class="comments-container">
+            <h3>Comments</h3>
+            <div id="comments-list">
+                </div>
+        </section>
+
+        <div class="comment-form-container">
+            <h4 id="comment-form-heading">Post a Comment</h4>
+            <form id="comment-form" action="" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <textarea id="comment-content" name="content" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="comment-media">Image/Video (Optional):</label>
+                    <input type="file" id="comment-media" name="media" accept="image/*,video/*">
+                </div>
+                <button type="submit">Submit Comment</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="/js/post.js"></script>
+</body>
+</html>
