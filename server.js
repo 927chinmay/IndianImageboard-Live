@@ -3,7 +3,14 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
-const fs = require('fs'); 
+const cloudinary = require('cloudinary').v2;
+
+// Cloudinary Configuration - Place it here:
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 const app = express();
 const port = 3000;
@@ -18,20 +25,9 @@ const User = require('./models/User');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadDir = path.join(__dirname, 'public', 'uploads');
-        // Check if the directory exists, if not, create it
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-        cb(null, uploadDir); // Set the destination to the now-verified directory
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
-const upload = multer({ storage: storage });
+
+// Multer configuration to store files in memory temporarily
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -105,19 +101,28 @@ app.post('/api/login', async (req, res) => {
 app.post('/api/posts', requireAuth, upload.single('media'), async (req, res) => {
     try {
         const { title, content, boardSlug } = req.body;
-        const userId = req.userId;
+const userId = req.userId;
+let mediaUrl = null;
+let mediaType = null;
 
-        const mediaUrl = req.file ? `/uploads/${req.file.filename}` : null;
-        const mediaType = req.file ? (req.file.mimetype.startsWith('image') ? 'image' : 'video') : null;
+if (req.file) {
+    // Upload the file to Cloudinary
+    const result = await cloudinary.uploader.upload(
+        'data:' + req.file.mimetype + ';base64,' + req.file.buffer.toString('base64'),
+        { resource_type: "auto", folder: "indian_imageboard" }
+    );
+    mediaUrl = result.secure_url;
+    mediaType = result.resource_type === 'image' ? 'image' : 'video';
+}
 
-        const newPost = new Post({
-            title: title,
-            content: content,
-            mediaUrl: mediaUrl,
-            mediaType: mediaType,
-            boardSlug: boardSlug,
-            userId: userId
-        });
+const newPost = new Post({
+    title: title,
+    content: content,
+    mediaUrl: mediaUrl,
+    mediaType: mediaType,
+    boardSlug: boardSlug,
+    userId: userId
+});
 
         await newPost.save();
         res.status(201).json({ message: 'Post created successfully!', post: newPost });
@@ -163,26 +168,37 @@ app.delete('/api/posts/:id', requireAuth, async (req, res) => {
 // Comment routes
 app.post('/api/comments', requireAuth, upload.single('media'), async (req, res) => {
     try {
-        const { content, postId } = req.body;
-        const userId = req.userId;
+       const { content, postId, parentId } = req.body;
+const userId = req.userId;
+let mediaUrl = null;
+let mediaType = null;
 
-        const mediaUrl = req.file ? `/uploads/${req.file.filename}` : null;
-        const mediaType = req.file ? (req.file.mimetype.startsWith('image') ? 'image' : 'video') : null;
+if (!content || !postId) {
+    return res.status(400).json({ message: 'Content and Post ID are required.' });
+}
 
-        if (!content || !postId) {
-            return res.status(400).json({ message: 'Content and Post ID are required.' });
-        }
+if (req.file) {
+    // Upload the file to Cloudinary
+    const result = await cloudinary.uploader.upload(
+        'data:' + req.file.mimetype + ';base64,' + req.file.buffer.toString('base64'),
+        { resource_type: "auto", folder: "indian_imageboard_comments" } // Using a unique folder name
+    );
+    mediaUrl = result.secure_url;
+    mediaType = result.resource_type === 'image' ? 'image' : 'video';
+}
 
-        const newComment = new Comment({
-            content: content,
-            postId: postId,
-            userId: userId,
-            mediaUrl: mediaUrl,
-            mediaType: mediaType,
-        });
+const newComment = new Comment({
+    content: content,
+    postId: postId,
+    userId: userId,
+    mediaUrl: mediaUrl,
+    mediaType: mediaType,
+    parentId: parentId || null
+});
 
-        await newComment.save();
-        res.status(201).json({ message: 'Comment created successfully!', comment: newComment });
+
+await newComment.save();
+res.status(201).json({ message: 'Comment created successfully!', comment: newComment });
     } catch (err) {
         console.error('Error creating comment:', err);
         res.status(500).json({ message: 'Failed to create comment.', error: err.message });
