@@ -289,7 +289,10 @@ app.get('/api/admin/comments', requireAuth, requireAdmin, async (req, res) => {
     }
 });
 
+// Use the PORT variable provided by the hosting environment, or default to 3000
+const PORT = process.env.PORT || 3000; 
+
 // Start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
