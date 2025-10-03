@@ -295,6 +295,31 @@ app.get('/api/admin/comments', requireAuth, requireAdmin, async (req, res) => {
     }
 });
 
+// In server.js
+
+// Route to search for posts
+app.get('/api/search', async (req, res) => {
+    try {
+        const { q } = req.query; // Get the search query from the URL (e.g., ?q=cricket)
+        if (!q) {
+            return res.status(400).json({ message: 'Search query is required.' });
+        }
+
+        // Use MongoDB's $or and $regex for a case-insensitive search
+        const posts = await Post.find({
+            $or: [
+                { title: { $regex: q, $options: 'i' } },
+                { content: { $regex: q, $options: 'i' } }
+            ]
+        }).populate('userId').sort({ createdAt: -1 });
+
+        res.status(200).json(posts);
+    } catch (err) {
+        console.error('Error fetching search results:', err);
+        res.status(500).json({ message: 'Failed to fetch search results.' });
+    }
+});
+
 // Use the PORT variable provided by the hosting environment, or default to 3000
 const PORT = process.env.PORT || 3000; 
 
