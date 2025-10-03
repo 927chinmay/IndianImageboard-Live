@@ -31,7 +31,7 @@ const upload = multer({ storage: storage });
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/indian_imageboard', {
+mongoose.connect(process.env.MONGODB_URI, { // <-- Must use process.env
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
