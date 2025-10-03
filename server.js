@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const multer = require('multer');
+const fs = require('fs'); 
 
 const app = express();
 const port = 3000;
@@ -19,7 +20,12 @@ app.use(express.urlencoded({ extended: true }));
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'public/uploads/');
+        const uploadDir = path.join(__dirname, 'public', 'uploads');
+        // Check if the directory exists, if not, create it
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+        cb(null, uploadDir); // Set the destination to the now-verified directory
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname);
