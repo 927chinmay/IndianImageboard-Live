@@ -166,48 +166,47 @@ app.delete('/api/posts/:id', requireAuth, async (req, res) => {
     }
 });
 
+// In server.js
+
 // Comment routes
 app.post('/api/comments', requireAuth, upload.single('media'), async (req, res) => {
-// In server.js, inside the app.post('/api/comments', ...) try block
-try {
-    const { content, postId } = req.body;
-    const userId = req.userId;
-    let mediaUrl = null;
-    let mediaType = null;
+    try {
+        const { content, postId } = req.body;
+        const userId = req.userId;
+        let mediaUrl = null;
+        let mediaType = null;
 
-    if (!content || !postId) {
-        return res.status(400).json({ message: 'Content and Post ID are required.' });
-    }
+        if (!content || !postId) {
+            return res.status(400).json({ message: 'Content and Post ID are required.' });
+        }
 
-    if (req.file) {
-        // Upload the file to Cloudinary
-        const result = await cloudinary.uploader.upload(
-            'data:' + req.file.mimetype + ';base64,' + req.file.buffer.toString('base64'),
-            { resource_type: "auto", folder: "indian_imageboard_comments" }
-        );
-        mediaUrl = result.secure_url;
-        mediaType = result.resource_type === 'image' ? 'image' : 'video';
-    }
+        if (req.file) {
+            // Upload the file to Cloudinary
+            const result = await cloudinary.uploader.upload(
+                'data:' + req.file.mimetype + ';base64,' + req.file.buffer.toString('base64'),
+                { resource_type: "auto", folder: "indian_imageboard_comments" }
+            );
+            mediaUrl = result.secure_url;
+            mediaType = result.resource_type === 'image' ? 'image' : 'video';
+        }
 
-    const newComment = new Comment({
-        content: content,
-        postId: postId,
-        userId: userId,
-        mediaUrl: mediaUrl,
-        mediaType: mediaType
-    });
+        const newComment = new Comment({
+            content: content,
+            postId: postId,
+            userId: userId,
+            mediaUrl: mediaUrl,
+            mediaType: mediaType
+        });
 
-    // CRITICAL: Only one save and one response is needed
-    await newComment.save();
-    res.status(201).json({ message: 'Comment created successfully!', comment: newComment });
+        // Save the comment and respond
+        await newComment.save();
+        res.status(201).json({ message: 'Comment created successfully!', comment: newComment });
 
-} catch (err) {
-    // ... rest of the catch block
+    } catch (err) { // <-- The catch block must be directly attached to the try block
         console.error('Error creating comment:', err);
         res.status(500).json({ message: 'Failed to create comment.', error: err.message });
     }
 });
-
 app.get('/api/posts/:id/comments', async (req, res) => {
     try {
         const postId = req.params.id;
