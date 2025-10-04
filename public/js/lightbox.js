@@ -73,9 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // that checks if the clicked element is an image/video inside post-media or comment-media.
     document.body.addEventListener('click', (e) => {
         const target = e.target;
-        if ((target.tagName === 'IMG' || target.tagName === 'VIDEO') &&
+       if ((target.tagName === 'IMG' || target.tagName === 'VIDEO') &&
             (target.closest('.post-media') || target.closest('.comment-media'))) {
-            openLightbox(target.src, target.tagName.toLowerCase());
+            // CRITICAL FIX: Get the media type from the data attribute
+            const mediaType = target.dataset.mediaType || target.tagName.toLowerCase(); 
+            openLightbox(target.src, mediaType);
         }
     });
 });

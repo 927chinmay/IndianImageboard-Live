@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const commentForm = document.getElementById('comment-form');
     const postPageTitle = document.getElementById('post-page-title');
     // NOTE: Replace this placeholder ID with your actual Anonymous Guest ID!
-    const ANONYMOUS_ID = "68e10f32fde360adcb486c05"; 
+    const ANONYMOUS_ID = "68e10f32fde360adcb486c05";
 
     const fetchPostData = async () => {
         try {
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const post = await postResponse.json();
 
             // CRITICAL CHECK: If post is not found or null, stop script gracefully
-            if (!post || post.message) { 
+            if (!post || post.message) {
                 postDetailsContainer.innerHTML = '<p>Post not found.</p>';
                 return;
             }
@@ -47,13 +47,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 ${deleteBtnHtml}
             `;
 
+            // In post.js, inside the fetchPostData function
+
             if (post.mediaUrl) {
                 if (post.mediaType && post.mediaType.startsWith('image')) {
-                    postContent += `<div class="post-media"><img src="${post.mediaUrl}" alt="Post Media"></div>`;
+                    // ADD data-media-type="image" here
+                    postContent += `<div class="post-media"><img src="${post.mediaUrl}" alt="Post Media" data-media-type="image"></div>`;
                 } else if (post.mediaType && post.mediaType.startsWith('video')) {
-                    postContent += `<div class="post-media"><video src="${post.mediaUrl}" controls width="100%"></video></div>`;
+                    // ADD data-media-type="video" here
+                    postContent += `<div class="post-media"><video src="${post.mediaUrl}" controls width="100%" data-media-type="video"></video></div>`;
                 }
             }
+
             postDetailsContainer.innerHTML = postContent;
 
             // Fetch Comments
@@ -79,13 +84,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     let mediaHtml = '';
                     if (comment.mediaUrl) {
-                        if (comment.mediaType && comment.mediaType.startsWith('image')) {
-                            mediaHtml = `<div class="comment-media"><img src="${comment.mediaUrl}" alt="Comment Media"></div>`;
-                        } else if (comment.mediaType && comment.mediaType.startsWith('video')) {
-                            mediaHtml = `<div class="comment-media"><video src="${comment.mediaUrl}" controls width="100%"></video></div>`;
-                        }
-                    }
-
+    if (comment.mediaType && comment.mediaType.startsWith('image')) {
+        // ADD data-media-type="image" here
+        mediaHtml = `<div class="comment-media"><img src="${comment.mediaUrl}" alt="Comment Media" data-media-type="image"></div>`;
+    } else if (comment.mediaType && comment.mediaType.startsWith('video')) {
+        // ADD data-media-type="video" here
+        mediaHtml = `<div class="comment-media"><video src="${comment.mediaUrl}" controls width="100%" data-media-type="video"></video></div>`;
+    }
+}
                     commentDiv.innerHTML = `
                        <small>by <a href="/profile.html?id=${commentUser?._id}&username=${commentAuthorName}">${commentAuthorName}</a></small>
                         <p>${comment.content}</p>
@@ -117,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (response.ok) {
                         alert('Post deleted!');
                         // Simplifies redirect to home after successful deletion
-                        window.location.href = `/`; 
+                        window.location.href = `/`;
                     } else {
                         console.error('Failed to delete post.');
                     }

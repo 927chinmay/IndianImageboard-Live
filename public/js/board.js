@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let mediaHtml = '';
     if (post.mediaUrl) {
         if (post.mediaType && post.mediaType.startsWith('image')) {
-            mediaHtml = `<div class="post-media"><img src="${post.mediaUrl}" alt="Post Media"></div>`;
+            mediaHtml = `<div class="post-media"><img src="${post.mediaUrl}" alt="Post Media" data-media-type="image"></div>`;
         } else if (post.mediaType && post.mediaType.startsWith('video')) {
             mediaHtml = `<div class="post-media"><video src="${post.mediaUrl}" controls width="100%"></video></div>`;
         }
