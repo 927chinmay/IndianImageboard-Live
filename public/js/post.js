@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const commentForm = document.getElementById('comment-form');
     const postPageTitle = document.getElementById('post-page-title');
     // NOTE: Replace this placeholder ID with your actual Anonymous Guest ID!
-    const ANONYMOUS_ID = "68e10f32fde360adcb486c05YO"; 
+    const ANONYMOUS_ID = "68e10f32fde360adcb486c05"; 
 
     const fetchPostData = async () => {
         try {
