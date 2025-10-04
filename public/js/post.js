@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const commentsList = document.getElementById('comments-list');
     const commentForm = document.getElementById('comment-form');
     const postPageTitle = document.getElementById('post-page-title');
+    const ANONYMOUS_ID = "68e10f32fde360adcb486c05"; // <-- PASTE THE _id HERE
 
     const fetchPostData = async () => {
         try {
@@ -150,12 +151,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const urlParams = new URLSearchParams(window.location.search);
         const postId = urlParams.get('id');
         formData.append('postId', postId);
+        const userId = localStorage.getItem('userId') || ANONYMOUS_ID;
+
 
         try {
             const response = await fetch('/api/comments', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('userId')}`
+                    'Authorization': `Bearer ${userId}`
                 },
                 body: formData
             });

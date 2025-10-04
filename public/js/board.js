@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const postForm = document.getElementById('post-form');
     const listViewBtn = document.getElementById('list-view-btn');
     const catalogViewBtn = document.getElementById('catalog-view-btn');
+    const ANONYMOUS_ID = "68e10f32fde360adcb486c05"; // <-- PASTE THE _id HERE
 
     // This function fetches all the posts for the current board and renders them
     const fetchBoardData = async () => {
@@ -103,11 +104,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const boardSlug = urlParams.get('slug');
         formData.append('boardSlug', boardSlug);
 
+        const userId = localStorage.getItem('userId') || ANONYMOUS_ID;
+
         try {
             const response = await fetch('/api/posts', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('userId')}`
+                     'Authorization': `Bearer ${userId}`
                 },
                 body: formData
             });
