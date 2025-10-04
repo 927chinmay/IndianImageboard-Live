@@ -3,7 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const commentsList = document.getElementById('comments-list');
     const commentForm = document.getElementById('comment-form');
     const postPageTitle = document.getElementById('post-page-title');
-    const ANONYMOUS_ID = "68e10f32fde360adcb486c05"; // <-- PASTE THE _id HERE
+    // NOTE: Replace this placeholder ID with your actual Anonymous Guest ID!
+    const ANONYMOUS_ID = "YOUR_COPIED_USER_ID_HERE"; 
 
     const fetchPostData = async () => {
         try {
@@ -18,21 +19,30 @@ document.addEventListener('DOMContentLoaded', () => {
             const postResponse = await fetch(`/api/posts/${postId}`);
             const post = await postResponse.json();
 
-            if (!post || post.message) {
+            // CRITICAL CHECK: If post is not found or null, stop script gracefully
+            if (!post || post.message) { 
                 postDetailsContainer.innerHTML = '<p>Post not found.</p>';
                 return;
             }
 
+            // Define User Variables SAFELY
+            const postUser = post.userId;
+            const hasUser = postUser && postUser.username;
+            const authorName = hasUser ? postUser.username : 'Anonymous';
+            const loggedInUserId = localStorage.getItem('userId');
+
             postPageTitle.textContent = `${post.title} - Indian Imageboard`;
-            const authorName = post.userId ? post.userId.username : 'Anonymous';
             let deleteBtnHtml = '';
-            if (localStorage.getItem('userId') === post.userId._id.toString()) {
+
+            // Post Deletion Logic: Only show delete button if logged in user is the author
+            if (hasUser && loggedInUserId === postUser._id.toString()) {
                 deleteBtnHtml = `<button class="delete-post-btn" data-id="${post._id}">Delete Post</button>`;
             }
 
+            // Post Content Rendering
             let postContent = `
                 <h3>${post.title}</h3>
-                <small>by <a href="/profile.html?id=${post.userId._id}&username=${authorName}">${authorName}</a></small>
+                <small>by <a href="/profile.html?id=${postUser._id}&username=${authorName}">${authorName}</a></small>
                 <p>${post.content}</p>
                 ${deleteBtnHtml}
             `;
@@ -46,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             postDetailsContainer.innerHTML = postContent;
 
+            // Fetch Comments
             const commentsResponse = await fetch(`/api/posts/${postId}/comments`);
             const comments = await commentsResponse.json();
 
@@ -57,12 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     const commentDiv = document.createElement('div');
                     commentDiv.className = 'comment';
 
-                    const hasUser = comment.userId && comment.userId.username;
-                    const authorName = hasUser ? comment.userId.username : 'Anonymous';
-                    let deleteBtnHtml = '';
+                    const commentUser = comment.userId;
+                    const commentAuthorName = commentUser ? commentUser.username : 'Anonymous';
+                    let commentDeleteBtnHtml = '';
 
-                    if (hasUser && localStorage.getItem('userId') === comment.userId._id.toString()) {
-                        deleteBtnHtml = `<button class="delete-comment-btn" data-id="${comment._id}">Delete Comment</button>`;
+                    // Comment Deletion Logic: Only show delete button if logged in user is the author
+                    if (commentUser && loggedInUserId === commentUser._id.toString()) {
+                        commentDeleteBtnHtml = `<button class="delete-comment-btn" data-id="${comment._id}">Delete Comment</button>`;
                     }
 
                     let mediaHtml = '';
@@ -75,10 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     commentDiv.innerHTML = `
-                       <small>by <a href="/profile.html?id=${post.userId._id}&username=${authorName}">${authorName}</a></small>
+                       <small>by <a href="/profile.html?id=${commentUser._id}&username=${commentAuthorName}">${commentAuthorName}</a></small>
                         <p>${comment.content}</p>
                         ${mediaHtml}
-                        ${deleteBtnHtml}
+                        ${commentDeleteBtnHtml}
                     `;
                     commentsList.appendChild(commentDiv);
                 });
@@ -89,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Post Deletion Event Listener (uses postDetailsContainer because the button is created inside it)
     postDetailsContainer.addEventListener('click', async (e) => {
         if (e.target.classList.contains('delete-post-btn')) {
             const userId = localStorage.getItem('userId');
@@ -103,13 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     if (response.ok) {
                         alert('Post deleted!');
-                        const postResponse = await fetch(`/api/posts/${postIdToDelete}`);
-                        const postData = await postResponse.json();
-                        if (postData.boardSlug) {
-                            window.location.href = `/board.html?slug=${postData.boardSlug}`;
-                        } else {
-                            window.location.href = `/`;
-                        }
+                        // Simplifies redirect to home after successful deletion
+                        window.location.href = `/`; 
                     } else {
                         console.error('Failed to delete post.');
                     }
@@ -120,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Comment Deletion Event Listener
     commentsList.addEventListener('click', async (e) => {
         if (e.target.classList.contains('delete-comment-btn')) {
             const userId = localStorage.getItem('userId');
@@ -144,15 +153,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Comment Submission Event Listener (FINAL FIX FOR ANONYMOUS POSTING)
     commentForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(commentForm);
 
+        // Get Post ID from URL
         const urlParams = new URLSearchParams(window.location.search);
         const postId = urlParams.get('id');
-        formData.append('postId', postId);
-        const userId = localStorage.getItem('userId') || ANONYMOUS_ID;
+        formData.append('postId', postId); // CRITICAL: Ensure postId is appended
 
+        // CRITICAL: Determine User ID for Authorization Header
+        const userId = localStorage.getItem('userId') || ANONYMOUS_ID;
 
         try {
             const response = await fetch('/api/comments', {
