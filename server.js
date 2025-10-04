@@ -168,42 +168,41 @@ app.delete('/api/posts/:id', requireAuth, async (req, res) => {
 
 // Comment routes
 app.post('/api/comments', requireAuth, upload.single('media'), async (req, res) => {
-    try {
-// Inside the app.post('/api/comments', ...) try block
-const { content, postId } = req.body; // Ensure all body fields are correctly grabbed
-const userId = req.userId;
-let mediaUrl = null;
-let mediaType = null;
+// In server.js, inside the app.post('/api/comments', ...) try block
+try {
+    const { content, postId } = req.body;
+    const userId = req.userId;
+    let mediaUrl = null;
+    let mediaType = null;
 
-if (!content || !postId) {
-    return res.status(400).json({ message: 'Content and Post ID are required.' });
-}
+    if (!content || !postId) {
+        return res.status(400).json({ message: 'Content and Post ID are required.' });
+    }
 
-if (req.file) {
-    // Upload the file to Cloudinary
-    const result = await cloudinary.uploader.upload(
-        'data:' + req.file.mimetype + ';base64,' + req.file.buffer.toString('base64'),
-        { resource_type: "auto", folder: "indian_imageboard_comments" }
-    );
-    mediaUrl = result.secure_url;
-    mediaType = result.resource_type === 'image' ? 'image' : 'video';
-}
+    if (req.file) {
+        // Upload the file to Cloudinary
+        const result = await cloudinary.uploader.upload(
+            'data:' + req.file.mimetype + ';base64,' + req.file.buffer.toString('base64'),
+            { resource_type: "auto", folder: "indian_imageboard_comments" }
+        );
+        mediaUrl = result.secure_url;
+        mediaType = result.resource_type === 'image' ? 'image' : 'video';
+    }
 
-const newComment = new Comment({
-    content: content,
-    postId: postId,
-    userId: userId,
-    mediaUrl: mediaUrl,
-    mediaType: mediaType
-});
+    const newComment = new Comment({
+        content: content,
+        postId: postId,
+        userId: userId,
+        mediaUrl: mediaUrl,
+        mediaType: mediaType
+    });
 
-await newComment.save();
-res.status(201).json({ message: 'Comment created successfully!', comment: newComment });
+    // CRITICAL: Only one save and one response is needed
+    await newComment.save();
+    res.status(201).json({ message: 'Comment created successfully!', comment: newComment });
 
-
-await newComment.save();
-res.status(201).json({ message: 'Comment created successfully!', comment: newComment });
-    } catch (err) {
+} catch (err) {
+    // ... rest of the catch block
         console.error('Error creating comment:', err);
         res.status(500).json({ message: 'Failed to create comment.', error: err.message });
     }
