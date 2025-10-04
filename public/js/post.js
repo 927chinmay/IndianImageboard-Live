@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     commentDiv.innerHTML = `
-                       <small>by <a href="/profile.html?id=${commentUser._id}&username=${commentAuthorName}">${commentAuthorName}</a></small>
+                       <small>by <a href="/profile.html?id=${commentUser?._id}&username=${commentAuthorName}">${commentAuthorName}</a></small>
                         <p>${comment.content}</p>
                         ${mediaHtml}
                         ${commentDeleteBtnHtml}
