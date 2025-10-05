@@ -134,25 +134,22 @@ main { max-width: 1100px;
 }
 
 .board-link {
-    display: block;
+     display: block;
     padding: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    background-color: #ffffff;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-}
+    border: 1px solid #D5E0EB; 
+    border-radius: 8px;
+    background-color: #FFFFFF; 
+    transition: transform 0.2s,  box-shadow 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); }
 
 .board-link:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-}
+         transform: translateY(-5px);
+         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
+        border-color: #334D63; }
 
-.board-link h3 {
-    margin: 0;
-    font-size: 1.2em;
-    color: #003366;
-}
+.board-link h3 { color: #334D63; 
+    margin: 0; 
+    font-size: 1.2em; }
 
 .board-link p {
     font-size: 0.9em;
@@ -293,29 +290,27 @@ hr {
 }
 
 /* --- Platform Description Box --- */
-.site-description {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
+.site-description { display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 20px; 
+    margin-top: 20px; /* Add some space below the search bar */ }
 
 .description-box {
-    background-color: #f7f7f7;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
+     background-color: #FFF2E6; /* Light peach/cream background for contrast */ 
+    border: 1px solid #FF9933; /* Orange/Saffron border */
+     border-radius: 8px; 
     padding: 25px;
-    max-width: 800px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
+     max-width: 800px; 
+    box-shadow: 0 2px 4px 
+    rgba(0, 0, 0, 0.1); 
+    text-align: center; }
 
-.description-box h2 {
-    font-size: 1.5em;
-    margin-top: 0;
-    color: #003366;
-}
-
+.description-box h2 { 
+    color: #FF6B6B; /* Coral heading */
+     border-bottom: 2px solid #FF9933; /* Saffron underline */
+     padding-bottom: 10px; 
+    margin-bottom: 15px; }
 .description-box p {
     font-size: 1em;
     line-height: 1.6;
