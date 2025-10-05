@@ -204,6 +204,39 @@ input[type="file"] {
     transform: translateY(-1px);
 }
 
+/* --- Board Shortcuts Navigation --- */
+.board-shortcuts-container {
+    background-color: #2D3A50; /* Match header dark color */
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px; /* Space below shortcuts */
+    text-align: center;
+}
+
+.board-shortcuts {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    justify-content: center; /* Center the links */
+    gap: 15px; /* Space between links */
+    padding: 0 15px;
+}
+
+.board-shortcuts a {
+    color: #E0EBF5; /* Lighter blue/grey for links */
+    font-size: 0.9em;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+    white-space: nowrap; /* Prevent wrapping for individual links */
+}
+
+.board-shortcuts a:hover {
+    background-color: #FF9933; /* Saffron highlight on hover */
+    color: white;
+}
+
 /* --- Main Content Area for all pages --- */
 main {
     max-width: 1100px;
