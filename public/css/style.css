@@ -137,7 +137,7 @@ input[type="file"] {
 }
 
 .logo {
-    height: 140px; /* Slightly smaller logo */
+    height: 180px; /* Slightly smaller logo */
     width: auto;
     display: block;
     filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); /* Subtle glow for logo */
