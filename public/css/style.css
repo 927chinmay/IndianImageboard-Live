@@ -214,27 +214,31 @@ input[type="file"] {
 }
 
 .board-shortcuts {
-    max-width: 1100px;
+    max-width: 1100px; /* Constrain the width */
     margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    display: flex; /* CRITICAL: Use flex for single-line layout */
+    flex-wrap: nowrap; /* Prevents wrapping onto multiple lines */
     justify-content: center; /* Center the links */
     gap: 15px; /* Space between links */
     padding: 0 15px;
+    overflow-x: auto; /* Allow horizontal scrolling if too many links */
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on mobile */
 }
 
 .board-shortcuts a {
-    color: #E0EBF5; /* Lighter blue/grey for links */
-    font-size: 0.9em;
-    padding: 5px 10px;
+    color: white; /* White text for high contrast on the dark background */
+    font-size: 0.85em; /* Smaller font size */
+    padding: 3px 8px; /* Compact padding */
     border-radius: 4px;
     transition: background-color 0.2s, color 0.2s;
-    white-space: nowrap; /* Prevent wrapping for individual links */
+    white-space: nowrap; /* Keep link text on one line */
+    font-weight: 500;
+    text-transform: uppercase; /* Uppercase text for visual strength */
 }
 
 .board-shortcuts a:hover {
     background-color: #FF9933; /* Saffron highlight on hover */
-    color: white;
+    color: #1A3B66; /* Deep blue text on saffron hover */
 }
 
 /* --- Main Content Area for all pages --- */
