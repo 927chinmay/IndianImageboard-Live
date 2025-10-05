@@ -63,11 +63,11 @@ input[type="file"] {
 
 /* --- Main Header & Navigation --- */
 .main-header {
-    background-color: #1A3B66; /* Deep blue header */
+    background-color: #2D3A50; /* New Dark Navy/Slate Blue */
     color: white;
-    padding: 1.2rem 0; /* Adjusted padding */
+    padding: 1.5rem 0;
     text-align: center;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25); /* Stronger shadow for depth */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .header-top-bar {
@@ -103,7 +103,7 @@ input[type="file"] {
 }
 
 .logo {
-    height: 90px; /* Slightly smaller logo */
+    height: 140px; /* Slightly smaller logo */
     width: auto;
     display: block;
     filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); /* Subtle glow for logo */
@@ -124,7 +124,7 @@ input[type="file"] {
 }
 
 .main-header h1 a:hover {
-    color: #FFD700; /* Gold hover effect for main title */
+    color: #FF9933; /* Ensuring the Saffron/Orange accent color is used */
 }
 
 .main-header p {
