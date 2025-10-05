@@ -1,45 +1,92 @@
 /* --- Global Styles for a Unified Look --- */
-body { font-family: Arial, sans-serif; 
-    line-height: 1.6; 
-    margin: 0; 
-    padding: 0; 
-    background-color: #F8F4F0; /* New soft cream/beige background */ 
-    color: #333333; /* Dark grey for default text */ 
-    display: flex; 
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* More modern font */
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #F8F4F0; /* Soft cream/beige background for warmth (BharatChan inspired) */
+    color: #333333; /* Dark grey for default text */
+    display: flex;
     flex-direction: column;
-     min-height: 100vh; }
+    min-height: 100vh; /* Ensure body takes full viewport height */
+}
 
-h1, h2, h3, h4 { color: #334D63; /* Darker, sophisticated blue for headings */ 
-    margin-top: 0; }
+h1, h2, h3, h4, h5, h6 {
+    color: #1A3B66; /* Deep blue for primary headings */
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 600; /* Slightly bolder headings */
+}
 
-a { text-decoration: none; 
+a {
+    text-decoration: none;
     color: #FF6B6B; /* Soft Red/Coral for links and accents */
-     transition: color 0.2s; }
+    transition: color 0.2s ease-in-out;
+}
 
 a:hover {
     color: #FF4A4A;
 }
 
-
-/* --- Header Styles for a Centered Layout --- */
-.main-header {
-    background-color: #1A3B66; /* Deep blue primary accent */
+button, input[type="submit"], .btn {
+    background-color: #FF9933; /* Saffron/Orange for primary buttons */
     color: white;
-    padding: 1.5rem 0; /* More vertical padding */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+button:hover, input[type="submit"]:hover, .btn:hover {
+    background-color: #FF8822;
+    transform: translateY(-1px);
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Include padding in width */
+    font-size: 1rem;
+}
+
+input[type="file"] {
+    margin-bottom: 15px;
+}
+
+/* --- Main Header & Navigation --- */
+.main-header {
+    background-color: #1A3B66; /* Deep blue header */
+    color: white;
+    padding: 1.2rem 0; /* Adjusted padding */
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25); /* Stronger shadow for depth */
 }
 
 .header-top-bar {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-bottom: 10px;
+    padding-right: 20px;
+    margin-bottom: 10px; /* Space between top bar and main title */
 }
 
 .auth-links a {
-    color: white;
-    margin-left: 15px;
+    color: #E0EBF5; /* Lighter blue for auth links */
+    margin-left: 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.auth-links a:hover {
+    color: #FF6B6B; /* Coral hover */
 }
 
 .header-center {
@@ -47,374 +94,539 @@ a:hover {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    max-width: 1100px;
+    margin: 0 auto; /* Center content within header */
 }
 
-/* Ensure the main heading below the logo is also centered */
+.logo-container {
+    margin-bottom: 10px; /* Space below logo */
+}
+
+.logo {
+    height: 90px; /* Slightly smaller logo */
+    width: auto;
+    display: block;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); /* Subtle glow for logo */
+}
+
 .main-header h1 {
+    color: white;
+    font-size: 3rem; /* Larger title */
+    font-weight: 800; /* Extra bold */
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Text shadow for impact */
     margin: 0;
-    font-size: 2.8rem; /* Larger, more prominent title */
-    font-weight: 700; /* Bolder */
-    letter-spacing: 1px;
 }
 
 .main-header h1 a {
     color: white;
     text-decoration: none;
-    transition: color 0.3s ease;
 }
 
 .main-header h1 a:hover {
-    color: #FF9933; /* Saffron hover effect for brand color */
+    color: #FFD700; /* Gold hover effect for main title */
 }
 
 .main-header p {
-    margin-top: 5px;
-    font-size: 1.1rem;
-    opacity: 0.9;
+    margin-top: 10px;
+    font-size: 1.2rem;
+    opacity: 0.95;
+    font-style: italic;
 }
 
+/* --- Search Form in Header --- */
 #search-form {
-    /* Aligns the search form in the center of the header */
-    margin-top: 20px;
+    margin-top: 25px; /* More space above search bar */
     display: flex;
     justify-content: center;
     gap: 10px;
+    max-width: 600px; /* Constrain width */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #search-query {
-    /* Styles the input text box */
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 300px; /* Adjust width as needed */
+    padding: 12px 18px;
+    border: 1px solid #B0C4D5; /* Lighter border */
+    border-radius: 25px; /* Fully rounded search input */
+    font-size: 1.1rem;
+    width: 70%; /* Responsive width */
+    max-width: 400px; /* Max width for input */
+    outline: none;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+#search-query:focus {
+    border-color: #FF9933; /* Saffron border on focus */
+    box-shadow: 0 0 8px rgba(255, 153, 51, 0.4); /* Saffron glow on focus */
 }
 
 #search-form button {
-    /* Styles the submit button */
-    background-color: #3399ff;
+    background-color: #FF9933; /* Saffron search button */
     color: white;
-    padding: 8px 15px;
+    padding: 12px 25px;
     border: none;
-    border-radius: 4px;
+    border-radius: 25px; /* Fully rounded search button */
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
 }
 
 #search-form button:hover {
-    background-color: #007acc;
+    background-color: #FF8822;
+    transform: translateY(-1px);
 }
 
-
-
-.logo-container {
-    margin-bottom: -5px; /* Changed from 5px to 0px */
-}
-
-.logo {
-    height: 150px;
-    width: auto;
-    display: block;
-}
 /* --- Main Content Area for all pages --- */
-main { max-width: 1100px; 
-    margin: 30px auto; 
-    padding: 30px; 
-    background-color: #FFFFFF; /* Pure white content background */ 
-    border-radius: 10px; /* Rounded corners */ 
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Lifted appearance */ 
-    flex-grow: 1; }
-
-/* --- Homepage Boards Grid --- */
-.boards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-    padding: 20px;
+main {
+    max-width: 1100px;
+    margin: 40px auto; /* More generous margins around main content */
+    padding: 30px;
+    background-color: #FFFFFF; /* Pure white content background */
+    border-radius: 12px; /* More pronounced rounded corners */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); /* Stronger shadow for "floating" effect */
+    flex-grow: 1;
 }
 
-.board-link {
-     display: block;
-    padding: 20px;
-    border: 1px solid #D5E0EB; 
-    border-radius: 8px;
-    background-color: #FFFFFF; 
-    transition: transform 0.2s,  box-shadow 0.2s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); }
-
-.board-link:hover {
-         transform: translateY(-5px);
-         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
-        border-color: #334D63; }
-
-.board-link h3 { color: #334D63; 
-    margin: 0; 
-    font-size: 1.2em; }
-
-.board-link p {
-    font-size: 0.9em;
-    color: #777777;
-    margin-top: 5px;
+/* --- Platform Description Box (Homepage) --- */
+.site-description {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0; /* Vertical padding only */
+    margin-bottom: 30px; /* Space below description */
 }
-
-/* --- Post Form and Post List on Board Pages --- */
-.post-form-container, .posts-container, .comments-container {
-    padding: 20px;
-    margin-bottom: 20px;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    background-color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.post {
-    border: 1px solid #f0f0f0;
-    background-color: #fafafa;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 4px;
-}
-
-.post-image img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin-top: 10px;
-}
-
-/* --- Forms and Buttons --- */
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.form-group input[type="text"],
-.form-group textarea,
-.form-group input[type="file"] {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 16px;
-    transition: border-color 0.2s;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    border-color: #007acc;
-    outline: none;
-}
-
-button[type="submit"] {
-    background-color: #3399ff;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button[type="submit"]:hover {
-    background-color: #2288ee;
-}
-
-hr {
-    border: 0;
-    height: 1px;
-    background-color: #e0e0e0;
-    margin: 30px 0;
-}
-
-/* --- View Toggle Buttons --- */
-.view-toggle {
-    margin-bottom: 20px;
-    text-align: right;
-}
-
-.view-toggle a {
-    font-weight: bold;
-    color: #007acc;
-}
-
-/* --- Catalog View Styles (Restored) --- */
-#posts-list.catalog {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-}
-
-.catalog .post {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 10px;
-    background-color: #ffffff;
-    text-align: center;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.catalog .post-image img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin-top: 10px;
-}
-
-.catalog .post h3 {
-    font-size: 1.1em;
-    margin-top: 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #003366;
-}
-
-.catalog .post p {
-    display: none; /* Hide the content in catalog view */
-}
-
-.board-header {
-    text-align: center;
-}
-
-.post small, .comment small {
-    display: block;
-    margin-bottom: 10px;
-    color: #777;
-}
-
-/* --- Platform Description Box --- */
-.site-description { display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    padding: 20px; 
-    margin-top: 20px; /* Add some space below the search bar */ }
 
 .description-box {
-     background-color: #FFF2E6; /* Light peach/cream background for contrast */ 
-    border: 1px solid #FF9933; /* Orange/Saffron border */
-     border-radius: 8px; 
-    padding: 25px;
-     max-width: 800px; 
-    box-shadow: 0 2px 4px 
-    rgba(0, 0, 0, 0.1); 
-    text-align: center; }
+    background-color: #FFF2E6; /* Light peach/cream background for contrast (BharatChan inspired) */
+    border: 1px solid #FFC080; /* Softer orange border */
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 850px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    line-height: 1.8;
+}
 
-.description-box h2 { 
+.description-box h2 {
     color: #FF6B6B; /* Coral heading */
-     border-bottom: 2px solid #FF9933; /* Saffron underline */
-     padding-bottom: 10px; 
-    margin-bottom: 15px; }
+    border-bottom: 2px solid #FF9933; /* Saffron underline */
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+}
+
 .description-box p {
-    font-size: 1em;
-    line-height: 1.6;
+    font-size: 1.1rem;
     color: #555555;
 }
 
-/* --- Catalog View Media Fixes --- */
-.catalog .post-media img,
-.catalog .post-media video {
-    max-width: 100%;
-    height: auto;
+/* --- Board Grid Styles (Homepage) --- */
+.boards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Slightly smaller cards */
+    gap: 30px; /* More space between cards */
+    padding: 20px;
+    margin-top: 30px; /* Space above board grid */
+}
+
+.board-link {
+    display: flex; /* Use flexbox for better alignment */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+    border: 1px solid #E0EBF5; /* Lighter, subtle border */
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.board-link:hover {
+    transform: translateY(-7px); /* More pronounced lift */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border-color: #FF9933; /* Saffron border on hover */
+}
+
+.board-link h3 {
+    color: #1A3B66; /* Deep blue heading for board titles */
+    margin: 0;
+    font-size: 1.4em;
+    text-transform: uppercase; /* Uppercase board titles (4chan inspired) */
+    letter-spacing: 0.8px;
+}
+
+.board-link p {
+    font-size: 0.95em;
+    color: #777777;
+    margin-top: 10px;
+}
+
+/* --- Post Creation Form (board.html and post.html) --- */
+.post-form-container {
+    padding: 25px;
+    margin-bottom: 30px;
+    border: 1px solid #D5E0EB;
+    border-radius: 10px;
+    background-color: #EBF4FB; /* Light blue background for forms */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.post-form-container h2 {
+    color: #1A3B66;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #C5D5E7;
+    padding-bottom: 10px;
+}
+
+/* --- Post Listing (board.html, post.html, search.html) --- */
+.posts-container {
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+}
+
+.post {
+    border: 1px solid #F0F0F0; /* Lighter border for individual posts */
+    background-color: #FAFAFA; /* Slightly off-white background for posts */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.post:hover {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); /* Subtle lift on hover */
+}
+
+.post h3 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    color: #1A3B66;
+}
+
+.post h3 a {
+    color: #1A3B66;
+}
+.post h3 a:hover {
+    color: #FF6B6B;
+}
+
+.post small {
     display: block;
-    margin: 0 auto;
-    border-radius: 4px;
+    margin-bottom: 15px;
+    color: #777;
+    font-size: 0.9em;
 }
 
-/* --- Hide Delete Button in Catalog View --- */
-.catalog .delete-post-btn {
-    display: none;
+.post p {
+    margin-bottom: 15px;
+    line-height: 1.7;
 }
 
-/* --- Image Styling for Posts and Comments --- */
+.delete-post-btn {
+    background-color: #dc3545; /* Red for delete button */
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    color: white;
+}
 
-/* Generic image container styling for media */
+.delete-post-btn:hover {
+    background-color: #c82333;
+}
+
+/* --- Comments Section (post.html) --- */
+.comments-container {
+    padding: 20px;
+    margin-top: 30px;
+    border: 1px solid #E0E0E0;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+}
+
+.comment {
+    border-left: 5px solid #FF6B6B; /* Coral accent line for comments */
+    background-color: #FDFDFD; /* Slightly off-white comment background */
+    padding: 15px 15px 15px 20px; /* Increased padding */
+    margin-left: 20px; /* More indentation */
+    margin-bottom: 15px;
+    border-radius: 0 8px 8px 0; /* Rounded on right side */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.03); /* Subtle shadow */
+}
+
+.comment small {
+    font-size: 0.85em;
+    color: #888;
+    margin-bottom: 8px;
+}
+
+.comment p {
+    line-height: 1.6;
+}
+
+/* --- Media and Lightbox Styles (Restored) --- */
 .post-media,
 .comment-media {
-    max-width: 100%; /* Ensure media containers don't overflow */
-    margin-top: 15px;
-    text-align: center; /* Center images/videos if they are smaller than max-width */
+    max-width: 100%;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
-/* Images within posts/comments (default size) */
 .post-media img,
 .comment-media img,
 .post-media video,
 .comment-media video {
-    max-width: 100%; /* Images/videos should not overflow their container */
-    height: auto;    /* Maintain aspect ratio */
-    display: block;  /* Remove extra space below images */
-    margin: 0 auto;  /* Center the image/video if container is wider */
-    border-radius: 4px; /* Slight rounded corners for aesthetics */
-    cursor: zoom-in; /* Indicate it's clickable for enlargement */
-    transition: transform 0.2s ease-in-out; /* Smooth hover effect for zoom */
-}
-
-/* Small thumbnail size for images in list view (e.g., board.html) */
-.post-list .post .post-media img {
-    max-width: 150px; /* Adjust this value as needed for a good thumbnail size */
-    max-height: 150px; /* Keep height proportional for thumbnails */
-    object-fit: cover; /* Ensures image covers the area without distortion */
-    border: 1px solid #ddd; /* Subtle border for thumbnails */
-    padding: 2px;
-}
-
-/* --- Modal/Lightbox Styling (for click-to-enlarge) --- */
-.lightbox-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); /* Dark, semi-transparent background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Ensure it's on top of everything */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-}
-
-.lightbox-overlay.visible {
-    opacity: 1;
-    visibility: visible;
-}
-
-.lightbox-content {
-    max-width: 90%; /* Max width for the enlarged image */
-    max-height: 90%; /* Max height for the enlarged image */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    border-radius: 8px;
-    background-color: white; /* For padding if image doesn't fill */
-    padding: 5px; /* Small padding around the image */
-}
-
-.lightbox-content img,
-.lightbox-content video {
     max-width: 100%;
-    max-height: 100%;
+    height: auto;
     display: block;
-    margin: auto;
-    border-radius: 4px;
+    margin: 0 auto;
+    border-radius: 8px;
+    cursor: zoom-in;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Shadow for media */
+    transition: transform 0.2s ease-in-out;
 }
 
-.lightbox-close-btn {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-    background: none;
-    border: none;
+/* Thumbnail size for images in list view (board.html catalog view) */
+.post-list .post .post-media img {
+    max-width: 180px; /* Adjust this value as needed for a good thumbnail size */
+    max-height: 180px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+    padding: 3px;
+    margin-bottom: 10px;
 }
-.lightbox-close-btn:hover {
-    color: #f00; /* Red on hover */
+
+/* --- Other Component Styling --- */
+.board-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.board-header h2 {
+    font-size: 2.2rem;
+    color: #1A3B66;
+}
+
+.board-header p {
+    font-size: 1.1rem;
+    color: #555;
+    font-style: italic;
+}
+
+.view-toggle {
+    text-align: right;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.view-toggle a {
+    background-color: #F0F5F9; /* Light background for view toggle buttons */
+    padding: 8px 15px;
+    border-radius: 5px;
+    color: #1A3B66;
+    margin-left: 10px;
+    border: 1px solid #D5E0EB;
+}
+
+.view-toggle a.active, .view-toggle a:hover {
+    background-color: #1A3B66;
+    color: white;
+    border-color: #1A3B66;
+}
+
+/* --- Catalog View Styles --- */
+#posts-list.catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Adjusted grid for catalog */
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.catalog .post {
+    text-align: center;
+    padding: 15px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid #E0EBF5;
+    border-radius: 10px;
+}
+
+.catalog .post h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.catalog .post p,
+.catalog .delete-post-btn,
+.catalog .post-media video { /* Hide video in catalog thumbnails */
+    display: none;
+}
+
+/* --- Login/Register Form Styles (For pages like login.html, register.html, admin.html) --- */
+.auth-container, .admin-container {
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 40px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+.auth-container h2, .admin-container h2 {
+    color: #1A3B66;
+    margin-bottom: 25px;
+    font-size: 2rem;
+}
+
+.auth-container form, .admin-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-container label, .admin-container label {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+}
+
+.auth-container input[type="text"],
+.auth-container input[type="password"],
+.auth-container input[type="email"],
+.admin-container input[type="text"],
+.admin-container input[type="password"] {
+    width: calc(100% - 20px); /* Account for padding */
+    max-width: 350px; /* Constrain input width */
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #B0C4D5;
+    border-radius: 8px;
+    font-size: 1.05rem;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.auth-container input[type="text"]:focus,
+.auth-container input[type="password"]:focus,
+.auth-container input[type="email"]:focus,
+.admin-container input[type="text"]:focus,
+.admin-container input[type="password"]:focus {
+    border-color: #FF9933;
+    box-shadow: 0 0 10px rgba(255, 153, 51, 0.3);
+}
+
+.auth-container button, .admin-container button {
+    width: 100%;
+    max-width: 350px;
+    padding: 14px;
+    margin-top: 10px;
+    font-size: 1.15rem;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+.auth-container p {
+    margin-top: 25px;
+    font-size: 0.95rem;
+}
+
+.auth-container p a {
+    font-weight: bold;
+    color: #1A3B66;
+}
+
+.auth-container p a:hover {
+    color: #FF6B6B;
+}
+
+/* --- Footer --- */
+footer {
+    background-color: #1A3B66;
+    color: #E0EBF5;
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: auto; /* Pushes footer to the bottom */
+    font-size: 0.9rem;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Responsive Design Adjustments --- */
+@media (max-width: 768px) {
+    .main-header h1 {
+        font-size: 2.2rem;
+    }
+    .main-header p {
+        font-size: 1rem;
+    }
+    #search-form {
+        flex-direction: column;
+        gap: 15px;
+        max-width: 90%;
+    }
+    #search-query, #search-form button {
+        width: 100%;
+        max-width: unset;
+        border-radius: 25px; /* Ensure full roundedness on small screens */
+    }
+    main {
+        margin: 20px auto;
+        padding: 20px;
+    }
+    .boards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 15px;
+    }
+    .board-link {
+        padding: 18px;
+    }
+    .post, .comment, .post-form-container, .comments-container, .auth-container, .admin-container {
+        padding: 15px;
+    }
+    .comment {
+        margin-left: 10px;
+        border-left-width: 3px;
+    }
+    .logo {
+        height: 70px;
+    }
+    .header-top-bar {
+        padding-right: 15px;
+    }
+    .auth-links a {
+        margin-left: 10px;
+        font-size: 0.9rem;
+    }
+    .description-box {
+        padding: 20px;
+        margin: 0 10px;
+    }
+    .auth-container, .admin-container {
+        margin: 30px auto;
+        padding: 25px;
+        max-width: 90%;
+    }
+    .auth-container h2, .admin-container h2 {
+        font-size: 1.8rem;
+    }
+    .auth-container button, .admin-container button {
+        max-width: unset;
+    }
 }
