@@ -1,35 +1,33 @@
 /* --- Global Styles for a Unified Look --- */
-body {
-    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f0f4f7;
-    color: #444444;
-    margin: 0;
-    padding: 0;
-}
+body { font-family: Arial, sans-serif; 
+    line-height: 1.6; 
+    margin: 0; 
+    padding: 0; 
+    background-color: #F8F4F0; /* New soft cream/beige background */ 
+    color: #333333; /* Dark grey for default text */ 
+    display: flex; 
+    flex-direction: column;
+     min-height: 100vh; }
 
-h1, h2, h3, h4 {
-    color: #003366;
-    margin-top: 0;
-}
+h1, h2, h3, h4 { color: #334D63; /* Darker, sophisticated blue for headings */ 
+    margin-top: 0; }
 
-a {
-    text-decoration: none;
-    color: #007acc;
-    transition: color 0.2s;
-}
+a { text-decoration: none; 
+    color: #FF6B6B; /* Soft Red/Coral for links and accents */
+     transition: color 0.2s; }
 
 a:hover {
-    color: #005a99;
+    color: #FF4A4A;
 }
 
 
 /* --- Header Styles for a Centered Layout --- */
 .main-header {
-    background-color: #003366;
+    background-color: #1A3B66; /* Deep blue primary accent */
     color: white;
-    padding: 10px; /* Reduced padding to make the header smaller */
+    padding: 1.5rem 0; /* More vertical padding */
     text-align: center;
-    border-bottom: 5px solid #001f3f;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
 }
 
 .header-top-bar {
@@ -53,21 +51,61 @@ a:hover {
 
 /* Ensure the main heading below the logo is also centered */
 .main-header h1 {
+    margin: 0;
+    font-size: 2.8rem; /* Larger, more prominent title */
+    font-weight: 700; /* Bolder */
+    letter-spacing: 1px;
+}
+
+.main-header h1 a {
     color: white;
-    font-size: 2.8em; /* Make heading slightly larger if needed to match logo */
-    margin-bottom: 5px; /* Reduce space below heading */
-    margin-top: 0; /* Remove default top margin */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.main-header h1 a:hover {
+    color: #FF9933; /* Saffron hover effect for brand color */
 }
 
 .main-header p {
-    color: #cccccc;
-    font-size: 1.1em;
-    margin-top: 0;
+    margin-top: 5px;
+    font-size: 1.1rem;
+    opacity: 0.9;
 }
 
 #search-form {
+    /* Aligns the search form in the center of the header */
     margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
+
+#search-query {
+    /* Styles the input text box */
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 300px; /* Adjust width as needed */
+}
+
+#search-form button {
+    /* Styles the submit button */
+    background-color: #3399ff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#search-form button:hover {
+    background-color: #007acc;
+}
+
+
 
 .logo-container {
     margin-bottom: -5px; /* Changed from 5px to 0px */
@@ -79,14 +117,13 @@ a:hover {
     display: block;
 }
 /* --- Main Content Area for all pages --- */
-main {
-    max-width: 1100px;
-    margin: 20px auto 0; /* Reduced the bottom margin to 0 */
-    padding: 30px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+main { max-width: 1100px; 
+    margin: 30px auto; 
+    padding: 30px; 
+    background-color: #FFFFFF; /* Pure white content background */ 
+    border-radius: 10px; /* Rounded corners */ 
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Lifted appearance */ 
+    flex-grow: 1; }
 
 /* --- Homepage Boards Grid --- */
 .boards-grid {
