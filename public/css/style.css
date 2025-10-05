@@ -97,10 +97,12 @@ input[type="file"] {
 
 .header-top-bar {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between; /* CRITICAL: Space between shortcuts (left) and auth links (right) */
     align-items: center;
-    padding-right: 20px;
-    margin-bottom: 10px; /* Space between top bar and main title */
+    padding: 0 20px 10px 20px; /* Adjusted padding */
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
 .auth-links a {
@@ -205,13 +207,6 @@ input[type="file"] {
 }
 
 /* --- Board Shortcuts Navigation --- */
-.board-shortcuts-container {
-    background-color: #2D3A50; /* Match header dark color */
-    padding: 10px 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 20px; /* Space below shortcuts */
-    text-align: center;
-}
 
 .board-shortcuts {
     max-width: 1100px; /* Constrain the width */
@@ -227,10 +222,10 @@ input[type="file"] {
 
 .board-shortcuts a {
     color: white; /* White text for high contrast on the dark background */
-    font-size: 0.85em; /* Smaller font size */
+    font-size: 0.95rem; /* Smaller font size */
     padding: 3px 8px; /* Compact padding */
     border-radius: 4px;
-    transition: background-color 0.2s, color 0.2s;
+    transition: color 0.2s;
     white-space: nowrap; /* Keep link text on one line */
     font-weight: 500;
     text-transform: uppercase; /* Uppercase text for visual strength */
@@ -238,7 +233,7 @@ input[type="file"] {
 
 .board-shortcuts a:hover {
     background-color: #FF9933; /* Saffron highlight on hover */
-    color: #1A3B66; /* Deep blue text on saffron hover */
+  /* Deep blue text on saffron hover */
 }
 
 /* --- Main Content Area for all pages --- */
