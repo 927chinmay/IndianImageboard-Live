@@ -192,11 +192,11 @@ input[type="file"] {
     color: white;
     padding: 12px 25px;
     border: none;
-    border-radius: 25px; /* Fully rounded search button */
+    border-radius: 4px; /* Fully rounded search button */
     cursor: pointer;
     font-size: 1.1rem;
     font-weight: bold;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
 }
 
 #search-form button:hover {
