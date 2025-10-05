@@ -105,11 +105,18 @@ input[type="file"] {
     margin: 0 auto;
 }
 
+.auth-links {
+    display: flex; /* CRITICAL: Activates horizontal layout */
+    gap: 15px; /* Adds space between the links */
+    align-items: center;
+}
+
 .auth-links a {
-    color: #E0EBF5; /* Lighter blue for auth links */
-    margin-left: 20px;
+    color: white;
     font-size: 0.95rem;
     font-weight: 500;
+    /* Ensure pipe '|' separator does not cause stacking */
+    white-space: nowrap; 
 }
 
 .auth-links a:hover {
