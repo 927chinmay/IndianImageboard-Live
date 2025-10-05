@@ -273,9 +273,9 @@ main {
      border-color: #FF9933; /* Saffron/Orange border on hover */ }
 
 .board-link h3 {
-    color: #1A3B66; /* Deep blue heading for board titles */
+    color: #334D63; /* Deep blue heading for board titles */
     margin: 0;
-    font-size: 1.4em;
+   font-size: 1.2em;
     text-transform: uppercase; /* Uppercase board titles (4chan inspired) */
     letter-spacing: 0.8px;
 }
