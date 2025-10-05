@@ -209,26 +209,14 @@ input[type="file"] {
 /* --- Board Shortcuts Navigation --- */
 
 .board-shortcuts {
-    max-width: 1100px; /* Constrain the width */
-    margin: 0 auto;
-    display: flex; /* CRITICAL: Use flex for single-line layout */
-    flex-wrap: nowrap; /* Prevents wrapping onto multiple lines */
-    justify-content: center; /* Center the links */
+    display: flex;
     gap: 15px; /* Space between links */
-    padding: 0 15px;
-    overflow-x: auto; /* Allow horizontal scrolling if too many links */
-    -webkit-overflow-scrolling: touch; /* For smooth scrolling on mobile */
 }
 
 .board-shortcuts a {
-    color: white; /* White text for high contrast on the dark background */
-    font-size: 0.95rem; /* Smaller font size */
-    padding: 3px 8px; /* Compact padding */
-    border-radius: 4px;
+    color: white; /* Make them white like the Login/Register links */
+    font-size: 0.95rem;
     transition: color 0.2s;
-    white-space: nowrap; /* Keep link text on one line */
-    font-weight: 500;
-    text-transform: uppercase; /* Uppercase text for visual strength */
 }
 
 .board-shortcuts a:hover {
