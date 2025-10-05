@@ -258,24 +258,19 @@ main {
 }
 
 .board-link {
-    display: flex; /* Use flexbox for better alignment */
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 25px;
-    border: 1px solid #E0EBF5; /* Lighter, subtle border */
-    border-radius: 10px;
-    background-color: #FFFFFF;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border-color 0.2s ease-in-out;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-}
+     display: block;
+     padding: 20px; 
+     border: 1px solid #D5E0EB; 
+     border-radius: 8px; 
+     background-color: #FFFFFF; 
+     transition: transform 0.2s, box-shadow 0.2s; 
+     box-shadow: 0 3px 10px
+     rgba(0, 0, 0, 0.05); /* Softer shadow */ 
+    }
 
-.board-link:hover {
-    transform: translateY(-7px); /* More pronounced lift */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-    border-color: #FF9933; /* Saffron border on hover */
-}
+.board-link:hover{ transform: translateY(-5px);
+     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+     border-color: #FF9933; /* Saffron/Orange border on hover */ }
 
 .board-link h3 {
     color: #1A3B66; /* Deep blue heading for board titles */
