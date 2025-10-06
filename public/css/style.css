@@ -651,23 +651,25 @@ footer {
         height: 90px; /* Slightly smaller logo on mobile */
     }
 
-  .header-top-bar {
-        flex-direction: row; /* CRITICAL: Force horizontal layout */
-        align-items: center;
-        justify-content: space-between; /* Separate board shortcuts and auth links */
-        padding: 0 20px 10px 20px; /* Restore desktop padding */
+    .header-top-bar {
+        flex-direction: column; /* Stack board shortcuts and auth links vertically */
+        align-items: flex-start; /* Align contents to the left */
+        padding: 10px 15px; /* Adjust padding */
     }
 
-  .board-shortcuts {
-        width: auto; /* Allow content width */
-        margin-right: 0;
-        padding-bottom: 0;
-        border-bottom: none;
+    .board-shortcuts {
+        width: 100%; /* Take full width */
+        margin-right: 0; /* Remove right margin when stacked */
+        padding-bottom: 10px; /* Space between board shortcuts and auth links */
+        justify-content: flex-start; /* Keep links starting from left */
+        border-bottom: 1px solid rgba(255,255,255,0.2); /* Subtle separator */
+        margin-bottom: 10px; /* Space below separator */
     }
 
     .auth-links {
-        width: auto;
-        justify-content: flex-end;
+        width: 100%; /* Take full width */
+        justify-content: center; /* Center Login/Register/Admin Panel */
+        margin-left: 0; /* Remove auto margin when stacked */
     }
 
     #search-form {
@@ -707,6 +709,31 @@ footer {
         margin: 30px auto;
         padding: 25px;
         max-width: 95%;
+    }
+}
+
+/* --- Desktop Overrides (Ensure Proper Horizontal Layout) --- */
+@media (min-width: 769px) {
+    /* 1. Unstack the top bar elements */
+    .header-top-bar {
+        flex-direction: row; /* CRITICAL: Force horizontal layout */
+        align-items: center;
+        justify-content: space-between; /* Separate board shortcuts and auth links */
+        padding: 0 20px 10px 20px; /* Restore desktop padding */
+    }
+
+    /* 2. Restore full-width horizontal scrolling for shortcuts */
+    .board-shortcuts {
+        width: auto; /* Allow content width */
+        margin-right: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    /* 3. Ensure Auth Links move to the far right */
+    .auth-links {
+        width: auto;
+        justify-content: flex-end;
     }
 }
 
