@@ -97,14 +97,14 @@ input[type="file"] {
 
 .header-top-bar {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Pushes Auth links to the far right */
     align-items: center;
     padding: 0 20px 10px 20px;
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    position: relative; /* Needed for absolute positioning if we add a menu toggle */
+    /* CRITICAL FIX: Allow wrapping only if space is completely exhausted */
+    flex-wrap: nowrap; 
 }
 
 .auth-links {
@@ -221,22 +221,18 @@ input[type="file"] {
 /* --- Board Shortcuts Navigation --- */
 
 .board-shortcuts {
-    max-width: 1100px;
-    margin: 0 auto;
     display: flex;
     flex-wrap: nowrap;
-    justify-content: flex-start;
     gap: 15px;
     padding: 0 15px;
 
-    /* CRITICAL FIX: Enable horizontal scrolling */
+    /* CRITICAL FIX: Limit the growth of the board links container */
+    max-width: calc(100% - 200px); /* Leave at least 200px for the auth links */
     overflow-x: auto; 
+    -webkit-overflow-scrolling: touch;
 
-    /* Ensure smooth scrolling */
-    -webkit-overflow-scrolling: touch; 
-
-    margin-right: 50px;
-    flex-shrink: 0; 
+    margin-right: 20px; /* Space between board links and auth links */
+    flex-shrink: 1; /* Allow it to shrink if needed */
 }
 
 /* Hide scrollbar for Chrome, Safari, Opera */
