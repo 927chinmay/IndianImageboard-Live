@@ -720,45 +720,70 @@ footer {
 
 /* --- Desktop Overrides (Restore Original Horizontal Layout) --- */
 @media (min-width: 769px) {
-    /* 1. Restore Top Bar (Horizontal Layout) */
     .header-top-bar {
-        flex-direction: row; /* Force horizontal layout for desktop */
-        justify-content: space-between;
+        flex-direction: row; /* Ensure horizontal layout */
+        justify-content: space-between; /* CRITICAL: Push left and right elements apart */
         align-items: center;
-        padding: 0 20px 10px 20px; 
-        flex-wrap: nowrap;
+        padding: 0 20px 10px 20px;
+        flex-wrap: nowrap; /* Prevent wrapping */
+        width: 100%; /* Ensure it takes full width */
+        max-width: 1100px;
+        margin: 0 auto;
     }
 
-    /* 2. Restore Board Shortcuts (Horizontal Scrolling) */
     .board-shortcuts {
-        width: auto; 
-        margin-right: 50px; /* Space from auth links */
+        display: flex; /* Keep flex for horizontal links */
+        flex-wrap: nowrap;
+        overflow-x: auto; /* CRITICAL: Re-enable horizontal scrolling for boards */
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin; /* Show scrollbar for Firefox */
+        -ms-overflow-style: scrollbar; /* Show scrollbar for IE/Edge */
+
+        /* Specific desktop styles */
+        margin-right: 20px; /* Small buffer from the auth links */
         padding-bottom: 0;
         border-bottom: none;
-        overflow-x: auto; /* CRITICAL: Ensure scrollbar works on desktop when needed */
-        flex-grow: 0;
         justify-content: flex-start;
+        flex-grow: 1; /* Allow it to grow, but not infinitely */
+    }
+    /* Make scrollbar visible for Chrome, Safari, Opera */
+    .board-shortcuts::-webkit-scrollbar {
+        height: 8px; /* Height of the horizontal scrollbar */
+        background-color: #f1f1f1;
+        display: block; /* Ensure it's visible */
+    }
+    .board-shortcuts::-webkit-scrollbar-thumb {
+        background-color: #888; /* Color of the scrollbar thumb */
+        border-radius: 10px;
+    }
+    .board-shortcuts::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
     }
 
-    /* 3. Restore Auth Links (Ensure far right alignment) */
     .auth-links {
-        width: auto; 
-        justify-content: flex-end;
-        margin-left: 0; 
+        display: flex; /* Keep flex for horizontal auth links */
+        gap: 15px; /* Restore desktop gap */
+        align-items: center;
+        white-space: nowrap; /* Prevent wrapping */
+        flex-shrink: 0; /* CRITICAL: Prevent auth links from shrinking */
+        margin-left: auto; /* Push to the far right */
     }
 
-    /* 4. Restore Main Content Spacing (Fixes the white gap) */
-    main {
-        margin: 40px auto; /* Restore generous top margin for desktop */
-        padding: 30px;
+    /* Restore other desktop specific styles */
+    .main-header h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
     }
-
-    /* 5. Restore specific logo size */
+    .main-header p {
+        font-size: 1.2rem;
+        margin-top: 10px;
+    }
     .logo {
         height: 100px;
     }
-    .main-header h1 {
-        font-size: 3rem;
+    main {
+        margin: 40px auto;
+        padding: 30px;
     }
 }
 
