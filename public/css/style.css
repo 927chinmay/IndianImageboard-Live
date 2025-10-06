@@ -713,28 +713,54 @@ footer {
     }
 }
 
-/* --- Desktop Overrides (Ensure Proper Horizontal Layout) --- */
+/* --- Desktop Overrides (Restore Original Horizontal Layout) --- */
 @media (min-width: 769px) {
-    /* 1. Unstack the top bar elements */
     .header-top-bar {
-        flex-direction: row; /* CRITICAL: Force horizontal layout */
+        flex-direction: row; /* Force horizontal layout for desktop */
+        justify-content: space-between; /* Separate elements */
         align-items: center;
-        justify-content: space-between; /* Separate board shortcuts and auth links */
         padding: 0 20px 10px 20px; /* Restore desktop padding */
+        flex-wrap: nowrap; /* Prevent wrapping on desktop */
     }
 
-    /* 2. Restore full-width horizontal scrolling for shortcuts */
     .board-shortcuts {
         width: auto; /* Allow content width */
-        margin-right: 0;
-        padding-bottom: 0;
-        border-bottom: none;
+        margin-right: auto; /* Push auth links to the right */
+        padding-bottom: 0; /* Remove mobile-specific padding */
+        border-bottom: none; /* Remove mobile-specific border */
+        justify-content: flex-start; /* Align links to the left */
+        overflow-x: hidden; /* CRITICAL: Hide horizontal scrollbar on desktop */
+        flex-grow: 0; /* Don't force growth */
+        margin-right: 50px; /* Provide definite space from auth links */
     }
 
-    /* 3. Ensure Auth Links move to the far right */
+    .board-shortcuts a {
+        font-size: 0.95rem; /* Slightly larger font for desktop links */
+        padding: 5px 10px; /* Restore original desktop padding */
+    }
+
     .auth-links {
-        width: auto;
-        justify-content: flex-end;
+        width: auto; /* Allow content width */
+        justify-content: flex-end; /* Align to the right */
+        margin-left: 0; /* Remove mobile-specific margin */
+    }
+
+    /* Ensure main content is positioned correctly on desktop */
+    main {
+        margin: 40px auto; /* Restore generous top margin for desktop */
+    }
+
+    /* Restore original logo size for desktop if it was changed by mobile */
+    .logo {
+        height: 100px;
+    }
+
+    /* Restore main header title and description sizes for desktop */
+    .main-header h1 {
+        font-size: 3rem;
+    }
+    .main-header p {
+        font-size: 1.2rem;
     }
 }
 
