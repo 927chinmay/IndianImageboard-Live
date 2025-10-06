@@ -97,18 +97,23 @@ input[type="file"] {
 
 .header-top-bar {
     display: flex;
-    justify-content: space-between; /* CRITICAL: Space between shortcuts (left) and auth links (right) */
+    justify-content: space-between;
     align-items: center;
-    padding: 0 20px 10px 20px; /* Adjusted padding */
+    padding: 0 20px 10px 20px;
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    position: relative; /* Needed for absolute positioning if we add a menu toggle */
 }
 
 .auth-links {
-    display: flex; /* CRITICAL: Activates horizontal layout */
-    gap: 15px; /* Adds space between the links */
+    display: flex;
+    gap: 10px; /* Reduced gap for mobile */
     align-items: center;
+    flex-shrink: 0; /* Prevent auth links from shrinking */
+    white-space: nowrap; /* Keep login/register on one line if possible */
+    margin-left: auto; /* Push to the right */
 }
 
 .auth-links a {
@@ -216,27 +221,32 @@ input[type="file"] {
 /* --- Board Shortcuts Navigation --- */
 
 .board-shortcuts {
-    max-width: 1100px;
-    margin: 0 auto;
     display: flex;
-    flex-wrap: nowrap;
-    justify-content: flex-start; 
+    flex-wrap: nowrap; /* Keep links on a single line */
     gap: 15px;
-    padding: 0 15px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin-right: 50px; 
+    padding: 0; /* Remove padding here to allow full width for scrolling */
+    overflow-x: auto; /* Enable horizontal scrolling for the links */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
+    margin-right: 20px; /* Provide some space before auth links */
+    flex-grow: 1; /* Allow it to take available space */
+    justify-content: flex-start; /* Align links to the start */
+}
+
+/* Hide scrollbar for Chrome, Safari, Opera */
+.board-shortcuts::-webkit-scrollbar {
+    display: none;
 }
 
 .board-shortcuts a {
-    color: white; /* White text for high contrast on the dark background */
-    font-size: 0.95rem; /* Smaller font size */
-    padding: 3px 8px; /* Compact padding */
+    color: white;
+    font-size: 0.9rem; /* Slightly smaller on mobile for more links */
+    padding: 3px 8px;
     border-radius: 4px;
-    transition: color 0.2s;
-    white-space: nowrap; /* Keep link text on one line */
+    white-space: nowrap;
     font-weight: 500;
-    text-transform: uppercase; /* Uppercase text for visual strength */
+    text-transform: uppercase;
 }
 
 .board-shortcuts a:hover {
@@ -627,35 +637,66 @@ footer {
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.15);
 }
 
-/* --- Responsive Design Adjustments --- */
+/* --- Responsive Design Adjustments for Mobile --- */
 @media (max-width: 768px) {
     .main-header h1 {
         font-size: 2.2rem;
+        margin-bottom: 5px; /* Reduce space */
     }
     .main-header p {
         font-size: 1rem;
+        margin-top: 5px; /* Reduce space */
     }
+    .logo {
+        height: 90px; /* Slightly smaller logo on mobile */
+    }
+
+    .header-top-bar {
+        flex-direction: column; /* Stack board shortcuts and auth links vertically */
+        align-items: flex-start; /* Align contents to the left */
+        padding: 10px 15px; /* Adjust padding */
+    }
+
+    .board-shortcuts {
+        width: 100%; /* Take full width */
+        margin-right: 0; /* Remove right margin when stacked */
+        padding-bottom: 10px; /* Space between board shortcuts and auth links */
+        justify-content: flex-start; /* Keep links starting from left */
+        border-bottom: 1px solid rgba(255,255,255,0.2); /* Subtle separator */
+        margin-bottom: 10px; /* Space below separator */
+    }
+
+    .auth-links {
+        width: 100%; /* Take full width */
+        justify-content: center; /* Center Login/Register/Admin Panel */
+        margin-left: 0; /* Remove auto margin when stacked */
+    }
+
     #search-form {
         flex-direction: column;
         gap: 15px;
         max-width: 90%;
+        margin-top: 20px;
     }
     #search-query, #search-form button {
         width: 100%;
         max-width: unset;
-        border-radius: 25px; /* Ensure full roundedness on small screens */
     }
+
     main {
         margin: 20px auto;
-        padding: 20px;
-    }
-    .boards-grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 20px;
         padding: 15px;
     }
+    .description-box {
+        padding: 15px;
+        font-size: 0.95rem;
+    }
+    .boards-grid {
+        grid-template-columns: 1fr; /* Single column for boards on mobile */
+        gap: 15px;
+    }
     .board-link {
-        padding: 18px;
+        padding: 15px;
     }
     .post, .comment, .post-form-container, .comments-container, .auth-container, .admin-container {
         padding: 15px;
@@ -664,30 +705,10 @@ footer {
         margin-left: 10px;
         border-left-width: 3px;
     }
-    .logo {
-        height: 70px;
-    }
-    .header-top-bar {
-        padding-right: 15px;
-    }
-    .auth-links a {
-        margin-left: 10px;
-        font-size: 0.9rem;
-    }
-    .description-box {
-        padding: 20px;
-        margin: 0 10px;
-    }
     .auth-container, .admin-container {
         margin: 30px auto;
         padding: 25px;
-        max-width: 90%;
-    }
-    .auth-container h2, .admin-container h2 {
-        font-size: 1.8rem;
-    }
-    .auth-container button, .admin-container button {
-        max-width: unset;
+        max-width: 95%;
     }
 }
 
