@@ -221,17 +221,22 @@ input[type="file"] {
 /* --- Board Shortcuts Navigation --- */
 
 .board-shortcuts {
+    max-width: 1100px;
+    margin: 0 auto;
     display: flex;
-    flex-wrap: nowrap; /* Keep links on a single line */
+    flex-wrap: nowrap;
+    justify-content: flex-start;
     gap: 15px;
-    padding: 0; /* Remove padding here to allow full width for scrolling */
-    overflow-x: auto; /* Enable horizontal scrolling for the links */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    scrollbar-width: none; /* Hide scrollbar for Firefox */
-    -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
-    margin-right: 20px; /* Provide some space before auth links */
-    flex-grow: 1; /* Allow it to take available space */
-    justify-content: flex-start; /* Align links to the start */
+    padding: 0 15px;
+
+    /* CRITICAL FIX: Enable horizontal scrolling */
+    overflow-x: auto; 
+
+    /* Ensure smooth scrolling */
+    -webkit-overflow-scrolling: touch; 
+
+    margin-right: 50px;
+    flex-shrink: 0; 
 }
 
 /* Hide scrollbar for Chrome, Safari, Opera */
