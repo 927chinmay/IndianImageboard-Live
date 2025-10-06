@@ -651,25 +651,23 @@ footer {
         height: 90px; /* Slightly smaller logo on mobile */
     }
 
-    .header-top-bar {
-        flex-direction: column; /* Stack board shortcuts and auth links vertically */
-        align-items: flex-start; /* Align contents to the left */
-        padding: 10px 15px; /* Adjust padding */
+  .header-top-bar {
+        flex-direction: row; /* CRITICAL: Force horizontal layout */
+        align-items: center;
+        justify-content: space-between; /* Separate board shortcuts and auth links */
+        padding: 0 20px 10px 20px; /* Restore desktop padding */
     }
 
-    .board-shortcuts {
-        width: 100%; /* Take full width */
-        margin-right: 0; /* Remove right margin when stacked */
-        padding-bottom: 10px; /* Space between board shortcuts and auth links */
-        justify-content: flex-start; /* Keep links starting from left */
-        border-bottom: 1px solid rgba(255,255,255,0.2); /* Subtle separator */
-        margin-bottom: 10px; /* Space below separator */
+  .board-shortcuts {
+        width: auto; /* Allow content width */
+        margin-right: 0;
+        padding-bottom: 0;
+        border-bottom: none;
     }
 
     .auth-links {
-        width: 100%; /* Take full width */
-        justify-content: center; /* Center Login/Register/Admin Panel */
-        margin-left: 0; /* Remove auto margin when stacked */
+        width: auto;
+        justify-content: flex-end;
     }
 
     #search-form {
