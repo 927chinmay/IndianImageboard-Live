@@ -720,52 +720,45 @@ footer {
 
 /* --- Desktop Overrides (Restore Original Horizontal Layout) --- */
 @media (min-width: 769px) {
+    /* 1. Restore Top Bar (Horizontal Layout) */
     .header-top-bar {
         flex-direction: row; /* Force horizontal layout for desktop */
-        justify-content: space-between; /* Separate elements */
+        justify-content: space-between;
         align-items: center;
-        padding: 0 20px 10px 20px; /* Restore desktop padding */
-        flex-wrap: nowrap; /* Prevent wrapping on desktop */
+        padding: 0 20px 10px 20px; 
+        flex-wrap: nowrap;
     }
 
+    /* 2. Restore Board Shortcuts (Horizontal Scrolling) */
     .board-shortcuts {
-        width: auto; /* Allow content width */
-        margin-right: auto; /* Push auth links to the right */
-        padding-bottom: 0; /* Remove mobile-specific padding */
-        border-bottom: none; /* Remove mobile-specific border */
-        justify-content: flex-start; /* Align links to the left */
-        overflow-x: hidden; /* CRITICAL: Hide horizontal scrollbar on desktop */
-        flex-grow: 0; /* Don't force growth */
-        margin-right: 50px; /* Provide definite space from auth links */
+        width: auto; 
+        margin-right: 50px; /* Space from auth links */
+        padding-bottom: 0;
+        border-bottom: none;
+        overflow-x: auto; /* CRITICAL: Ensure scrollbar works on desktop when needed */
+        flex-grow: 0;
+        justify-content: flex-start;
     }
 
-    .board-shortcuts a {
-        font-size: 0.95rem; /* Slightly larger font for desktop links */
-        padding: 5px 10px; /* Restore original desktop padding */
-    }
-
+    /* 3. Restore Auth Links (Ensure far right alignment) */
     .auth-links {
-        width: auto; /* Allow content width */
-        justify-content: flex-end; /* Align to the right */
-        margin-left: 0; /* Remove mobile-specific margin */
+        width: auto; 
+        justify-content: flex-end;
+        margin-left: 0; 
     }
 
-    /* Ensure main content is positioned correctly on desktop */
+    /* 4. Restore Main Content Spacing (Fixes the white gap) */
     main {
         margin: 40px auto; /* Restore generous top margin for desktop */
+        padding: 30px;
     }
 
-    /* Restore original logo size for desktop if it was changed by mobile */
+    /* 5. Restore specific logo size */
     .logo {
         height: 100px;
     }
-
-    /* Restore main header title and description sizes for desktop */
     .main-header h1 {
         font-size: 3rem;
-    }
-    .main-header p {
-        font-size: 1.2rem;
     }
 }
 
