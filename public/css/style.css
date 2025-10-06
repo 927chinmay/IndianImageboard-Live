@@ -257,11 +257,11 @@ input[type="file"] {
 /* --- Main Content Area for all pages --- */
 main {
     max-width: 1100px;
-    margin: 40px auto; /* More generous margins around main content */
+    margin: 0 auto 30px; /* CRITICAL: Remove the large top margin */
     padding: 30px;
-    background-color: #FFFFFF; /* Pure white content background */
-    border-radius: 12px; /* More pronounced rounded corners */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); /* Stronger shadow for "floating" effect */
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     flex-grow: 1;
 }
 
@@ -480,7 +480,8 @@ main {
 /* --- Other Component Styling --- */
 .board-header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 30px; /* Space below the board name/description */
+    padding-top: 20px; /* Add padding to push content down from the top edge of the main container */
 }
 
 .board-header h2 {
