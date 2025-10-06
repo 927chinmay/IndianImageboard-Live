@@ -138,6 +138,10 @@ document.addEventListener('DOMContentLoaded', () => {
             postsList.classList.add('catalog');
         });
     }
+    
+// Set Catalog View as default display mode
+postsList.classList.add('catalog');
+
 
     // Initial call to fetch data on page load
     fetchBoardData();
