@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            // Safely define user variables
             const postUser = post.userId;
             const hasUser = postUser && postUser.username;
             const authorName = hasUser ? postUser.username : 'Anonymous';
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ${reportBtnHtml}
             `;
 
-            // Fetch and render comments
+            // --- Comment Fetching and Rendering ---
             const commentsResponse = await fetch(`/api/posts/${postId}/comments`);
             const comments = await commentsResponse.json();
             commentsList.innerHTML = '';
@@ -76,10 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 const buildTree = (list) => {
                     const map = {};
-                    list.forEach(item => {
-                        map[item._id] = item;
-                        item.children = [];
-                    });
+                    list.forEach(item => { map[item._id] = item; item.children = []; });
                     const tree = [];
                     list.forEach(item => {
                         if (item.parentCommentId && map[item.parentCommentId]) {
@@ -102,9 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         let commentMediaHtml = '';
                         if (comment.mediaUrl) {
-                            if (comment.mediaType && comment.mediaType.startsWith('image')) {
+                            if (comment.mediaType?.startsWith('image')) {
                                 commentMediaHtml = `<div class="comment-media"><img src="${comment.mediaUrl}" alt="Comment Media" data-media-type="image"></div>`;
-                            } else if (comment.mediaType && comment.mediaType.startsWith('video')) {
+                            } else if (comment.mediaType?.startsWith('video')) {
                                 commentMediaHtml = `<div class="comment-media"><video src="${comment.mediaUrl}" controls width="100%" data-media-type="video"></video></div>`;
                             }
                         }
@@ -129,7 +127,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                 };
-
                 const commentTree = buildTree(comments);
                 renderComments(commentTree, commentsList);
             }
@@ -147,14 +144,22 @@ document.addEventListener('DOMContentLoaded', () => {
             const userId = localStorage.getItem('userId');
             const postIdToDelete = e.target.dataset.id;
             if (confirm('Are you sure you want to delete this post?')) {
-                // ... (rest of delete post logic)
+                try {
+                    const response = await fetch(`/api/posts/${postIdToDelete}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${userId}` }
+                    });
+                    if (response.ok) {
+                        alert('Post deleted!');
+                        window.location.href = `/`;
+                    } else { console.error('Failed to delete post.'); }
+                } catch (err) { console.error('Error deleting post:', err); }
             }
         }
     });
 
     // For comment replies and deletions
     commentsList.addEventListener('click', async (e) => {
-        // Handle REPLY clicks
         if (e.target.classList.contains('reply-btn')) {
             const commentId = e.target.dataset.id;
             document.getElementById('parent-comment-id').value = commentId;
@@ -163,12 +168,19 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('comment-content').focus();
         }
 
-        // Handle DELETE clicks
         if (e.target.classList.contains('delete-comment-btn')) {
             const userId = localStorage.getItem('userId');
             const commentIdToDelete = e.target.dataset.id;
             if (confirm('Are you sure you want to delete this comment?')) {
-                // ... (rest of delete comment logic)
+                try {
+                    const response = await fetch(`/api/comments/${commentIdToDelete}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': `Bearer ${userId}` }
+                    });
+                    if (response.ok) {
+                        fetchPostData(); // Refresh comments
+                    } else { console.error('Failed to delete comment.'); }
+                } catch (err) { console.error('Error deleting comment:', err); }
             }
         }
     });
@@ -197,14 +209,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.ok) {
                 commentForm.reset();
                 document.getElementById('parent-comment-id').value = '';
-                document.querySelector('main').appendChild(commentForm); // Move form back to main area
+                document.querySelector('main').appendChild(commentForm);
                 fetchPostData();
-            } else {
-                console.error('Failed to submit comment.');
-            }
-        } catch (err) {
-            console.error('Error submitting comment:', err);
-        }
+            } else { console.error('Failed to submit comment.'); }
+        } catch (err) { console.error('Error submitting comment:', err); }
     });
     
     // For handling report clicks anywhere on the page
@@ -217,7 +225,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const reason = prompt('Please state the reason for your report:');
             if (reason && reason.trim() !== '') {
-                // ... (rest of report logic)
+                const report = {
+                    contentId: e.target.dataset.id,
+                    contentType: e.target.dataset.type,
+                    reason: reason.trim()
+                };
+                try {
+                    const response = await fetch('/api/reports', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${userId}`
+                        },
+                        body: JSON.stringify(report)
+                    });
+                    const data = await response.json();
+                    alert(data.message);
+                } catch (err) {
+                    console.error('Failed to submit report:', err);
+                    alert('An error occurred while submitting your report.');
+                }
             }
         }
     });
