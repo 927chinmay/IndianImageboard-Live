@@ -16,6 +16,12 @@ const CommentSchema = new Schema({
         ref: 'User',
         required: true
     },
+    // ADD THIS NEW FIELD
+    parentCommentId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+        default: null // null means it's a top-level comment
+    },
     mediaUrl: {
         type: String,
         required: false
@@ -29,5 +35,4 @@ const CommentSchema = new Schema({
         default: Date.now
     }
 });
-
 module.exports = mongoose.model('Comment', CommentSchema);

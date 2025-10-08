@@ -168,12 +168,13 @@ app.delete('/api/posts/:id', requireAuth, async (req, res) => {
     }
 });
 
-// In server.js
 
+// In server.js
 // Comment routes
 app.post('/api/comments', requireAuth, upload.single('media'), async (req, res) => {
     try {
-        const { content, postId } = req.body;
+        // ADD parentCommentId HERE
+        const { content, postId, parentCommentId } = req.body;
         const userId = req.userId;
         let mediaUrl = null;
         let mediaType = null;
@@ -183,7 +184,6 @@ app.post('/api/comments', requireAuth, upload.single('media'), async (req, res) 
         }
 
         if (req.file) {
-            // Upload the file to Cloudinary
             const result = await cloudinary.uploader.upload(
                 'data:' + req.file.mimetype + ';base64,' + req.file.buffer.toString('base64'),
                 { resource_type: "auto", folder: "indian_imageboard_comments" }
@@ -196,19 +196,20 @@ app.post('/api/comments', requireAuth, upload.single('media'), async (req, res) 
             content: content,
             postId: postId,
             userId: userId,
+            parentCommentId: parentCommentId || null, // ADD THIS LINE
             mediaUrl: mediaUrl,
             mediaType: mediaType
         });
 
-        // Save the comment and respond
         await newComment.save();
         res.status(201).json({ message: 'Comment created successfully!', comment: newComment });
 
-    } catch (err) { // <-- The catch block must be directly attached to the try block
+    } catch (err) {
         console.error('Error creating comment:', err);
         res.status(500).json({ message: 'Failed to create comment.', error: err.message });
     }
 });
+
 app.get('/api/posts/:id/comments', async (req, res) => {
     try {
         const postId = req.params.id;

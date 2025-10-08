@@ -678,6 +678,15 @@ footer {
 }
 
 
+/* --- Threaded Reply Styles --- */
+.comment-reply {
+    margin-left: 20px; /* Adjust this value for deeper or shallower indentation */
+    border-left: 2px solid #ddd;
+    padding-left: 15px;
+    margin-top: 15px;
+}
+
+
 
 /* --- Responsive Design Adjustments for Mobile --- */
 @media (max-width: 768px) {
