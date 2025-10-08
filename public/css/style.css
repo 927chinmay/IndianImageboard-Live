@@ -656,6 +656,27 @@ footer {
     color: #E0EBF5;
 }
 
+/* --- Header Navigation --- */
+.header-nav {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-nav a {
+    color: white;
+    font-size: 1.1em;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.header-nav a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    text-decoration: none;
+}
+
 
 
 /* --- Responsive Design Adjustments for Mobile --- */
