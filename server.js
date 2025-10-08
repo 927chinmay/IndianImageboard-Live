@@ -289,8 +289,26 @@ app.get('/api/boards', async (req, res) => {
 app.get('/api/boards/:slug/posts', async (req, res) => {
     try {
         const boardSlug = req.params.slug;
-        const posts = await Post.find({ boardSlug }).populate('userId').sort({ createdAt: -1 });
-        res.status(200).json(posts);
+        const page = parseInt(req.query.page) || 1; // Get page from query, default to 1
+        const limit = 20; // Show 20 posts per page
+        const skip = (page - 1) * limit;
+
+        // Get the total count of posts for pagination
+        const totalPosts = await Post.countDocuments({ boardSlug });
+
+        // Fetch only the posts for the current page
+        const posts = await Post.find({ boardSlug })
+            .populate('userId')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        res.status(200).json({
+            posts,
+            totalPosts,
+            totalPages: Math.ceil(totalPosts / limit),
+            currentPage: page
+        });
     } catch (err) {
         console.error('Error fetching posts for board:', err);
         res.status(500).json({ message: 'Failed to fetch posts.' });
