@@ -628,16 +628,35 @@ main {
     color: #FF6B6B;
 }
 
-/* --- Footer --- */
+/* --- Footer Styling (SEO and Branding) --- */
 footer {
-    background-color: #1A3B66;
-    color: #E0EBF5;
-    text-align: center;
-    padding: 1.5rem 0;
-    margin-top: auto; /* Pushes footer to the bottom */
+    background-color: #1A3B66; /* Match the header's dark blue */
+    color: #E0EBF5; /* Light text */
+    padding: 20px 0;
+    width: 100%;
+    margin-top: 30px; /* Space between main content and footer */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     font-size: 0.9rem;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.15);
 }
+
+.footer-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 15px;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    line-height: 1.5;
+}
+
+/* Ensure text within the footer is white/light for readability */
+.footer-content a, .footer-content p {
+    color: #E0EBF5;
+}
+
+
 
 /* --- Responsive Design Adjustments for Mobile --- */
 @media (max-width: 768px) {
@@ -713,6 +732,8 @@ footer {
         max-width: 95%;
     }
 }
+
+
 
 /* --- Desktop Overrides (Restore Original Horizontal Layout) --- */
 @media (min-width: 769px) {
