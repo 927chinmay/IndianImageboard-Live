@@ -9,13 +9,28 @@
      crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
-        <div class="board-header">
-            <h1><a href="/">Indian Imageboard</a></h1>
-    <h2 id="board-name"></h2>
-    <p id="board-description"></p>
-</div>
-    </header>
+   <header class="main-header">
+    <div class="header-top-bar">
+        <div class="auth-links">
+            <a href="auth.html">Login/Register</a> | <a href="admin.html">Admin Panel</a>
+        </div>
+    </div>
+
+    <div class="header-center">
+        <div class="logo-container">
+            <img src="logo.png" alt="Indian Imageboard Logo" class="logo">
+        </div>
+        <h1><a href="/">Indian Imageboard</a></h1>
+        <p>Clean and good discussion platform</p>
+        <nav class="header-nav">
+            <a href="guidelines.html">Community Guidelines</a>
+        </nav>
+        <form id="search-form" action="/search.html" method="GET">
+            <input type="text" id="search-query" name="q" placeholder="Search for posts...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</header>
 
     <main>
         <div class="view-toggle">
