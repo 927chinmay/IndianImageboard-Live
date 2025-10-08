@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Define Share Button
 let shareBtnHtml = `<button class="share-post-btn" onclick="copyPostLink('${post._id}')">Share Link</button>`;
+const reportBtnHtml = `<button class="report-btn" data-id="${post._id}" data-type="Post">Report</button>`;
 
             // Post Content Rendering
             let postContent = `
@@ -62,7 +63,8 @@ let shareBtnHtml = `<button class="share-post-btn" onclick="copyPostLink('${post
                 <small>by <a href="/profile.html?id=${postUser._id}&username=${authorName}">${authorName}</a></small>
                 <p>${post.content}</p>
                 ${deleteBtnHtml}
-                 ${shareBtnHtml} 
+                ${shareBtnHtml} 
+                ${reportBtnHtml} 
             `;
 
             // In post.js, inside the fetchPostData function
@@ -110,11 +112,14 @@ let shareBtnHtml = `<button class="share-post-btn" onclick="copyPostLink('${post
         mediaHtml = `<div class="comment-media"><video src="${comment.mediaUrl}" controls width="100%" data-media-type="video"></video></div>`;
     }
 }
+const commentReportBtnHtml = `<button class="report-btn" data-id="${comment._id}" data-type="Comment">Report</button>`;
+
                     commentDiv.innerHTML = `
                        <small>by <a href="/profile.html?id=${commentUser?._id}&username=${commentAuthorName}">${commentAuthorName}</a></small>
                         <p>${comment.content}</p>
                         ${mediaHtml}
                         ${commentDeleteBtnHtml}
+                         ${commentReportBtnHtml}
                     `;
                     commentsList.appendChild(commentDiv);
                 });
@@ -176,6 +181,42 @@ let shareBtnHtml = `<button class="share-post-btn" onclick="copyPostLink('${post
             }
         }
     });
+
+    // Add this entire new event listener
+document.addEventListener('click', async (e) => {
+    if (e.target.classList.contains('report-btn')) {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            alert('You must be logged in to report content.');
+            return;
+        }
+
+        const reason = prompt('Please state the reason for your report:');
+        if (reason && reason.trim() !== '') {
+            const report = {
+                contentId: e.target.dataset.id,
+                contentType: e.target.dataset.type,
+                reason: reason.trim()
+            };
+
+            try {
+                const response = await fetch('/api/reports', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userId}`
+                    },
+                    body: JSON.stringify(report)
+                });
+                const data = await response.json();
+                alert(data.message);
+            } catch (err) {
+                console.error('Failed to submit report:', err);
+                alert('An error occurred while submitting your report.');
+            }
+        }
+    }
+});
 
     // Comment Submission Event Listener (FINAL FIX FOR ANONYMOUS POSTING)
     commentForm.addEventListener('submit', async (e) => {

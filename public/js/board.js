@@ -45,6 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteBtnHtml = `<button class="delete-post-btn" data-id="${post._id}">Delete Post</button>`;
     }
 
+    const reportBtnHtml = `<button class="report-btn" data-id="${post._id}" data-type="Post">Report</button>`;
+
     let mediaHtml = '';
     if (post.mediaUrl) {
         if (post.mediaType && post.mediaType.startsWith('image')) {
@@ -60,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <p>${post.content}</p>
         ${mediaHtml}
         ${deleteBtnHtml}
+        ${reportBtnHtml}
     `;
     postDiv.innerHTML = postContent;
     postsList.appendChild(postDiv);
@@ -93,6 +96,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         }
+
+        // Inside postsList.addEventListener('click', ...)
+
+
+if (e.target.classList.contains('report-btn')) {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        alert('You must be logged in to report content.');
+        return;
+    }
+
+    const reason = prompt('Please state the reason for your report:');
+    if (reason && reason.trim() !== '') {
+        const report = {
+            contentId: e.target.dataset.id,
+            contentType: e.target.dataset.type,
+            reason: reason.trim()
+        };
+
+        try {
+            const response = await fetch('/api/reports', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${userId}`
+                },
+                body: JSON.stringify(report)
+            });
+            const data = await response.json();
+            alert(data.message);
+        } catch (err) {
+            console.error('Failed to submit report:', err);
+            alert('An error occurred while submitting your report.');
+        }
+    }
+}
     });
 
     // Event listener for the post submission form

@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 
+
 // Cloudinary Configuration - Place it here:
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -21,6 +22,7 @@ const Board = require('./models/board');
 const Post = require('./models/Post');
 const Comment = require('./models/Comment');
 const User = require('./models/User');
+const Report = require('./models/Report');
 
 // Middleware
 app.use(express.json());
@@ -235,6 +237,33 @@ app.delete('/api/comments/:id', requireAuth, async (req, res) => {
     } catch (err) {
         console.error('Error deleting comment:', err);
         res.status(500).json({ message: 'Failed to delete comment.' });
+    }
+});
+
+// Report routes
+app.post('/api/reports', requireAuth, async (req, res) => {
+    try {
+        const { contentId, contentType, reason } = req.body;
+        const reportingUserId = req.userId; // From our requireAuth middleware
+
+        // Basic validation
+        if (!contentId || !contentType || !reason) {
+            return res.status(400).json({ message: 'Missing required report information.' });
+        }
+
+        const newReport = new Report({
+            contentId,
+            contentType,
+            reason,
+            reportingUserId
+        });
+
+        await newReport.save();
+        res.status(201).json({ message: 'Report submitted successfully. Thank you for your feedback.' });
+
+    } catch (err) {
+        console.error('Error creating report:', err);
+        res.status(500).json({ message: 'Failed to submit report.' });
     }
 });
 
