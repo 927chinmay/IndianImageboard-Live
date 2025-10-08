@@ -173,7 +173,6 @@ app.delete('/api/posts/:id', requireAuth, async (req, res) => {
 // Comment routes
 app.post('/api/comments', requireAuth, upload.single('media'), async (req, res) => {
     try {
-        // ADD parentCommentId HERE
         const { content, postId, parentCommentId } = req.body;
         const userId = req.userId;
         let mediaUrl = null;
@@ -184,6 +183,7 @@ app.post('/api/comments', requireAuth, upload.single('media'), async (req, res) 
         }
 
         if (req.file) {
+            // ... (your existing cloudinary upload logic)
             const result = await cloudinary.uploader.upload(
                 'data:' + req.file.mimetype + ';base64,' + req.file.buffer.toString('base64'),
                 { resource_type: "auto", folder: "indian_imageboard_comments" }
@@ -191,12 +191,19 @@ app.post('/api/comments', requireAuth, upload.single('media'), async (req, res) 
             mediaUrl = result.secure_url;
             mediaType = result.resource_type === 'image' ? 'image' : 'video';
         }
+        
+        // --- THIS IS THE FIX ---
+        // Validate the parentCommentId before using it
+        const finalParentId = parentCommentId && mongoose.Types.ObjectId.isValid(parentCommentId)
+            ? parentCommentId
+            : null;
+        // --- END OF FIX ---
 
         const newComment = new Comment({
             content: content,
             postId: postId,
             userId: userId,
-            parentCommentId: parentCommentId || null, // ADD THIS LINE
+            parentCommentId: finalParentId, // Use the validated ID
             mediaUrl: mediaUrl,
             mediaType: mediaType
         });
