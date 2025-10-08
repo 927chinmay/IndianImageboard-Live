@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const adminContent = document.getElementById('admin-content');
-    const adminReports = document.getElementById('admin-reports'); // Get the new reports div
+    const adminReports = document.getElementById('admin-reports');
     const userId = localStorage.getItem('userId');
 
     if (!userId) {
@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             fetch('/api/admin/reports', { headers: { 'Authorization': `Bearer ${userId}` } })
         ]);
 
-        if (postsResponse.status === 403) { // Check just one for admin status
+        if (postsResponse.status === 403) {
             adminContent.innerHTML = '<p>Access Denied. You are not an administrator.</p>';
-            adminReports.innerHTML = '';
+            adminReports.innerHTML = '<p>You do not have permission to view reports.</p>';
             return;
         }
 
@@ -26,30 +26,55 @@ document.addEventListener('DOMContentLoaded', async () => {
         const comments = await commentsResponse.json();
         const reports = await reportsResponse.json();
 
+        // --- THIS IS THE CORRECTED PART ---
         // Display Posts
-        let postsHtml = '<h3>Posts</h3>';
-        posts.forEach(post => { /* ... your existing post rendering code ... */ });
-        adminContent.innerHTML = postsHtml;
-        
+        let contentHtml = '<h3>Posts</h3>';
+        if (posts.length > 0) {
+            posts.forEach(post => {
+                contentHtml += `
+                    <div class="post">
+                        <h4>${post.title}</h4>
+                        <small>by ${post.userId ? post.userId.username : 'Anonymous'}</small>
+                        <p>${post.content}</p>
+                        <button class="delete-post-btn" data-id="${post._id}">Delete</button>
+                    </div>
+                `;
+            });
+        } else {
+            contentHtml += '<p>No posts to display.</p>';
+        }
+
         // Display Comments
-        let commentsHtml = '<h3>Comments</h3>';
-        comments.forEach(comment => { /* ... your existing comment rendering code ... */ });
-        adminContent.innerHTML += commentsHtml;
+        contentHtml += '<h3>Comments</h3>';
+        if (comments.length > 0) {
+            comments.forEach(comment => {
+                contentHtml += `
+                    <div class="comment">
+                        <small>by ${comment.userId ? comment.userId.username : 'Anonymous'}</small>
+                        <p>${comment.content}</p>
+                        <button class="delete-comment-btn" data-id="${comment._id}">Delete</button>
+                    </div>
+                `;
+            });
+        } else {
+            contentHtml += '<p>No comments to display.</p>';
+        }
+        
+        adminContent.innerHTML = contentHtml;
+        // --- END OF CORRECTION ---
 
         // Display Reports
         if (reports.length > 0) {
             let reportsHtml = '';
             reports.forEach(report => {
-                const contentLink = report.contentType === 'Post'
-                    ? `/post.html?id=${report.contentId}`
-                    : `/post.html?id=${report.contentId}`; // Link to the post for both
+                const contentLink = `/post.html?id=${report.contentId}`;
 
                 reportsHtml += `
-                    <div class="report">
+                    <div class="report" style="border: 1px solid #ddd; padding: 10px; margin-bottom: 10px;">
                         <p><strong>Reason:</strong> ${report.reason}</p>
                         <small>Reported by: ${report.reportingUserId ? report.reportingUserId.username : 'Unknown'}</small><br>
                         <a href="${contentLink}" target="_blank">View Reported ${report.contentType}</a>
-                        <button class="resolve-report-btn" data-id="${report._id}">Mark as Resolved</button>
+                        <button class="resolve-report-btn" data-id="${report._id}" style="margin-left: 10px;">Mark as Resolved</button>
                     </div>
                 `;
             });
@@ -63,7 +88,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         adminContent.innerHTML = '<p>An error occurred. Could not load data.</p>';
     }
 });
-
 // In public/js/admin.js (continued)
 
 // Event listener for delete buttons on posts and comments
