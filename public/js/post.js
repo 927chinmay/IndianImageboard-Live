@@ -1,3 +1,17 @@
+// Function to copy the current page URL to clipboard
+function copyPostLink(postId) {
+    // Construct the full URL for the post
+    const url = window.location.origin + '/post.html?id=' + postId;
+
+    // Use the modern clipboard API
+    navigator.clipboard.writeText(url).then(() => {
+        alert('Link copied to clipboard!');
+    }).catch(err => {
+        console.error('Could not copy text: ', err);
+        alert('Could not copy link. Please copy from the address bar.');
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const postDetailsContainer = document.getElementById('post-details');
     const commentsList = document.getElementById('comments-list');
@@ -39,12 +53,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 deleteBtnHtml = `<button class="delete-post-btn" data-id="${post._id}">Delete Post</button>`;
             }
 
+            // Define Share Button
+let shareBtnHtml = `<button class="share-post-btn" onclick="copyPostLink('${post._id}')">Share Link</button>`;
+
             // Post Content Rendering
             let postContent = `
                 <h3>${post.title}</h3>
                 <small>by <a href="/profile.html?id=${postUser._id}&username=${authorName}">${authorName}</a></small>
                 <p>${post.content}</p>
                 ${deleteBtnHtml}
+                 ${shareBtnHtml} 
             `;
 
             // In post.js, inside the fetchPostData function
@@ -193,4 +211,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     fetchPostData();
+    // Add this line at the very end of the post.js file (before the last closing '});')
+window.copyPostLink = copyPostLink;
 });
