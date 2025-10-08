@@ -8,12 +8,27 @@
 </head>
 <body>
     <header class="main-header">
-        <div class="logo-container">
-            <a href="/"><img src="logo.png" alt="Indian Imageboard Logo" class="logo"></a>
+    <div class="header-top-bar">
+        <div class="auth-links">
+            <a href="auth.html">Login/Register</a> | <a href="admin.html">Admin Panel</a>
         </div>
-        <h1><a href="/" style="color: white; text-decoration: none;">Indian Imageboard</a></h1>
+    </div>
+
+    <div class="header-center">
+        <div class="logo-container">
+            <img src="logo.png" alt="Indian Imageboard Logo" class="logo">
+        </div>
+        <h1><a href="/">Indian Imageboard</a></h1>
         <p>Clean and good discussion platform</p>
-    </header>
+        <nav class="header-nav">
+            <a href="guidelines.html">Community Guidelines</a>
+        </nav>
+        <form id="search-form" action="/search.html" method="GET">
+            <input type="text" id="search-query" name="q" placeholder="Search for posts...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</header>
 
     <main>
         <div class="content-box">
