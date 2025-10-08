@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const adminContent = document.getElementById('admin-content');
+    const adminReports = document.getElementById('admin-reports'); // Get the new reports div
     const userId = localStorage.getItem('userId');
 
     if (!userId) {
@@ -8,52 +9,54 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        // Fetch posts and comments from the admin API
-        const postsResponse = await fetch('/api/admin/posts', {
-            headers: {
-                'Authorization': `Bearer ${userId}`
-            }
-        });
+        // Fetch posts, comments, AND reports
+        const [postsResponse, commentsResponse, reportsResponse] = await Promise.all([
+            fetch('/api/admin/posts', { headers: { 'Authorization': `Bearer ${userId}` } }),
+            fetch('/api/admin/comments', { headers: { 'Authorization': `Bearer ${userId}` } }),
+            fetch('/api/admin/reports', { headers: { 'Authorization': `Bearer ${userId}` } })
+        ]);
 
-        const commentsResponse = await fetch('/api/admin/comments', {
-            headers: {
-                'Authorization': `Bearer ${userId}`
-            }
-        });
-
-        if (postsResponse.status === 403 || commentsResponse.status === 403) {
+        if (postsResponse.status === 403) { // Check just one for admin status
             adminContent.innerHTML = '<p>Access Denied. You are not an administrator.</p>';
+            adminReports.innerHTML = '';
             return;
         }
 
         const posts = await postsResponse.json();
         const comments = await commentsResponse.json();
+        const reports = await reportsResponse.json();
 
-        // Display the data
-        let html = '<h3>Posts</h3>';
-        posts.forEach(post => {
-            html += `
-                <div class="post">
-                    <h4>${post.title}</h4>
-                    <small>by ${post.userId ? post.userId.username : 'Anonymous'}</small>
-                    <p>${post.content}</p>
-                    <button class="delete-post-btn" data-id="${post._id}">Delete</button>
-                </div>
-            `;
-        });
+        // Display Posts
+        let postsHtml = '<h3>Posts</h3>';
+        posts.forEach(post => { /* ... your existing post rendering code ... */ });
+        adminContent.innerHTML = postsHtml;
+        
+        // Display Comments
+        let commentsHtml = '<h3>Comments</h3>';
+        comments.forEach(comment => { /* ... your existing comment rendering code ... */ });
+        adminContent.innerHTML += commentsHtml;
 
-        html += '<h3>Comments</h3>';
-        comments.forEach(comment => {
-            html += `
-                <div class="comment">
-                    <small>by ${comment.userId ? comment.userId.username : 'Anonymous'}</small>
-                    <p>${comment.content}</p>
-                    <button class="delete-comment-btn" data-id="${comment._id}">Delete</button>
-                </div>
-            `;
-        });
+        // Display Reports
+        if (reports.length > 0) {
+            let reportsHtml = '';
+            reports.forEach(report => {
+                const contentLink = report.contentType === 'Post'
+                    ? `/post.html?id=${report.contentId}`
+                    : `/post.html?id=${report.contentId}`; // Link to the post for both
 
-        adminContent.innerHTML = html;
+                reportsHtml += `
+                    <div class="report">
+                        <p><strong>Reason:</strong> ${report.reason}</p>
+                        <small>Reported by: ${report.reportingUserId ? report.reportingUserId.username : 'Unknown'}</small><br>
+                        <a href="${contentLink}" target="_blank">View Reported ${report.contentType}</a>
+                        <button class="resolve-report-btn" data-id="${report._id}">Mark as Resolved</button>
+                    </div>
+                `;
+            });
+            adminReports.innerHTML = reportsHtml;
+        } else {
+            adminReports.innerHTML = '<p>No pending reports.</p>';
+        }
 
     } catch (err) {
         console.error('Failed to fetch admin data:', err);
@@ -89,6 +92,21 @@ document.addEventListener('click', async (e) => {
             });
             if (response.ok) {
                 location.reload();
+            }
+        }
+    }
+
+    // Inside document.addEventListener('click', ...)
+    
+    if (e.target.classList.contains('resolve-report-btn')) {
+        const reportId = e.target.dataset.id;
+        if (confirm('Are you sure you want to mark this report as resolved?')) {
+            const response = await fetch(`/api/reports/${reportId}/resolve`, {
+                method: 'PUT',
+                headers: { 'Authorization': `Bearer ${userId}` }
+            });
+            if (response.ok) {
+                location.reload(); // Reload the page to show changes
             }
         }
     }

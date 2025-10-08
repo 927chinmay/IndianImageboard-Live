@@ -342,6 +342,37 @@ app.get('/api/admin/comments', requireAuth, requireAdmin, async (req, res) => {
     }
 });
 
+// Route for admins to get all pending reports
+app.get('/api/admin/reports', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const reports = await Report.find({ status: 'pending' })
+            .populate('reportingUserId', 'username') // Get the username of the reporter
+            .sort({ createdAt: 1 });
+        res.status(200).json(reports);
+    } catch (err) {
+        console.error('Error fetching reports for admin:', err);
+        res.status(500).json({ message: 'Failed to fetch reports.' });
+    }
+});
+
+// Route for an admin to resolve a report
+app.put('/api/reports/:id/resolve', requireAuth, requireAdmin, async (req, res) => {
+    try {
+        const report = await Report.findByIdAndUpdate(
+            req.params.id,
+            { status: 'resolved' },
+            { new: true } // Return the updated document
+        );
+        if (!report) {
+            return res.status(404).json({ message: 'Report not found.' });
+        }
+        res.status(200).json({ message: 'Report marked as resolved.', report });
+    } catch (err) {
+        console.error('Error resolving report:', err);
+        res.status(500).json({ message: 'Failed to resolve report.' });
+    }
+});
+
 // In server.js
 
 // Route to search for posts
@@ -366,6 +397,8 @@ app.get('/api/search', async (req, res) => {
         res.status(500).json({ message: 'Failed to fetch search results.' });
     }
 });
+
+
 
 // Use the PORT variable provided by the hosting environment, or default to 3000
 const PORT = process.env.PORT || 3000; 
