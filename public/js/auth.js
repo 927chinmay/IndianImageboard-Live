@@ -45,37 +45,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Handle login submission
-    loginForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const username = document.getElementById('login-username').value;
-        const password = document.getElementById('login-password').value;
+    // Inside public/js/auth.js
 
-        try {
-            const response = await fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
+// Handle login submission
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = document.getElementById('login-username').value;
+    const password = document.getElementById('login-password').value;
 
-            const data = await response.json();
-            authMessageDiv.textContent = data.message;
-            authMessageDiv.style.color = response.ok ? 'green' : 'red';
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
 
-           // In public/js/auth.js
-if (response.ok) {
-    // Store a placeholder token in local storage to simulate a logged-in state
-   localStorage.setItem('userId', data.token); // <-- Store the user ID
-    authMessageDiv.textContent = 'Login successful! Redirecting...';
-    authMessageDiv.style.color = 'green';
-    setTimeout(() => {
-        window.location.href = '/'; // Redirect to homepage
-    }, 1000);
-}
+        const data = await response.json();
+        // Keep these two lines to show the message immediately
+        authMessageDiv.textContent = data.message;
+        authMessageDiv.style.color = response.ok ? 'green' : 'red';
 
-        } catch (err) {
-            authMessageDiv.textContent = 'An error occurred. Please try again.';
-            authMessageDiv.style.color = 'red';
+        if (response.ok) {
+            localStorage.setItem('userId', data.token); // Store the user ID (token)
+            // --- ADD THIS LINE ---
+            localStorage.setItem('username', data.username); // Store the username
+            // --------------------
+            
+            // Update message slightly for clarity
+            authMessageDiv.textContent = 'Login successful! Redirecting...'; 
+            
+            setTimeout(() => {
+                window.location.href = '/'; // Redirect to homepage
+            }, 1000); // Wait 1 second before redirecting
         }
-    });
+
+    } catch (err) {
+        authMessageDiv.textContent = 'An error occurred. Please try again.';
+        authMessageDiv.style.color = 'red';
+    }
+});
 });
