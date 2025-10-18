@@ -85,6 +85,7 @@ app.post('/api/register', async (req, res) => {
 
 // In server.js
 
+// In server.js - Revert to this original login route
 app.post('/api/login', async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -96,8 +97,8 @@ app.post('/api/login', async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid username or password.' });
         }
-        // Send back username along with the token (user ID)
-        res.status(200).json({ message: 'Login successful!', token: user._id, username: user.username }); 
+        // Original line: Only sends back the token (user._id)
+        res.status(200).json({ message: 'Login successful!', token: user._id }); 
     } catch (err) {
         res.status(500).json({ message: 'An error occurred during login.' });
     }

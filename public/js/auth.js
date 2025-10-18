@@ -65,20 +65,17 @@ loginForm.addEventListener('submit', async (e) => {
         authMessageDiv.textContent = data.message;
         authMessageDiv.style.color = response.ok ? 'green' : 'red';
 
+       // Inside public/js/auth.js -> loginForm.addEventListener
+
         if (response.ok) {
-            localStorage.setItem('userId', data.token); // Store the user ID (token)
-            // --- ADD THIS LINE ---
-            localStorage.setItem('username', data.username); // Store the username
-            // --------------------
-            
-            // Update message slightly for clarity
-            authMessageDiv.textContent = 'Login successful! Redirecting...'; 
-            
+            // Original code: Only stored the userId (token)
+            localStorage.setItem('userId', data.token); 
+            authMessageDiv.textContent = 'Login successful! Redirecting...';
+            authMessageDiv.style.color = 'green';
             setTimeout(() => {
                 window.location.href = '/'; // Redirect to homepage
-            }, 1000); // Wait 1 second before redirecting
+            }, 1000);
         }
-
     } catch (err) {
         authMessageDiv.textContent = 'An error occurred. Please try again.';
         authMessageDiv.style.color = 'red';
